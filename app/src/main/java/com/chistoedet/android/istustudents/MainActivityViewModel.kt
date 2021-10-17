@@ -2,15 +2,11 @@ package com.chistoedet.android.istustudents
 
 import android.app.Application
 import android.util.Log
-import android.widget.TextView
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.di.DaggerActivityComponent
 import com.chistoedet.android.istustudents.di.DataModule
-
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +15,7 @@ import kotlinx.coroutines.launch
 private val TAG = MainActivityViewModel::class.simpleName
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
 
-    var component = DaggerActivityComponent.builder().dataModule(DataModule(application)).build()
+    private var component = DaggerActivityComponent.builder().dataModule(DataModule(application)).build()
 
     var userLiveData = MutableLiveData<UserResponse>()
     var app : Application
@@ -39,7 +35,7 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                     it.code().apply {
                         when (this) {
                             200 -> {
-                                userLiveData.postValue(it?.body())
+                                userLiveData.postValue(it.body())
                                 app. setUser(it.body()!!)
                             }
                             else -> {

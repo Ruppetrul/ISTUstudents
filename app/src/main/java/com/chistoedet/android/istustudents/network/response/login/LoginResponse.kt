@@ -1,8 +1,6 @@
 package com.chistoedet.android.istustudents.network.response.login
 
-import com.squareup.moshi.Json
 import com.google.gson.annotations.Expose
-
 import com.google.gson.annotations.SerializedName
 
 class LoginResponse {

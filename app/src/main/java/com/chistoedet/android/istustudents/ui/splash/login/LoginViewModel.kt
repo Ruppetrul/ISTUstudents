@@ -50,7 +50,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
 
     fun onLogin(email: String, password: String) {
 
-        var loginBody = LoginRequest()
+        val loginBody = LoginRequest()
         loginBody.email = email
         loginBody.password = password
 
@@ -88,16 +88,14 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun getTokenRelevance() {
+    private fun getTokenRelevance() {
         GlobalScope.launch {
-            var token = app.getToken()
+            val token = app.getToken()
 
-            token?.let {
+            token?.let { it ->
                 component.getApiService().testUser(it).let {
                     if (it.code() == 200) {
                         callbacks?.onMain()
-                    } else {
-
                     }
                 }
             }

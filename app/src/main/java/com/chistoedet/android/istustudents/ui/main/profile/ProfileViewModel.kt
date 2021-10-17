@@ -1,16 +1,10 @@
 package com.chistoedet.android.istustudents.ui.main.profile
 
 import android.app.Application
-import android.util.Log
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.chistoedet.android.istustudents.UserInformation
 import com.chistoedet.android.istustudents.di.App
-import com.chistoedet.android.istustudents.ui.main.studentOffice.StudentOfficeViewModel
-import okhttp3.internal.notify
 
 class ProfileViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -20,9 +14,9 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
 
     // TODO mutable данные
 
-    val passport = MutableLiveData<String>()
-    val inn = MutableLiveData<String>()
-    val snils = MutableLiveData<String>()
+    private val passport = MutableLiveData<String>()
+    private val inn = MutableLiveData<String>()
+    private val snils = MutableLiveData<String>()
 
     var userInformation = MutableLiveData<UserInformation>()
 

@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,9 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chistoedet.android.istustudents.databinding.FragmentContactListBinding
 import com.chistoedet.android.istustudents.network.response.chats.Staffs
-import com.chistoedet.android.istustudents.network.response.user.UserResponse
-import com.chistoedet.android.istustudents.ui.splash.login.LoginFragment
-import kotlin.math.log
 
 private val TAG = ContactListFragment::class.simpleName
 class ContactListFragment : Fragment() {
@@ -39,7 +35,7 @@ class ContactListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         messengerViewModel =
             ViewModelProvider(this).get(MessengerViewModel::class.java)
 
@@ -47,10 +43,10 @@ class ContactListFragment : Fragment() {
 
         recyclerView = binding.contactList
 
-        var layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
 
-        var chatAdapter = ContactListAdapter()
+        val chatAdapter = ContactListAdapter()
         recyclerView.adapter = chatAdapter
 
         listObserver = Observer<MutableList<Staffs>?> {
@@ -61,9 +57,7 @@ class ContactListFragment : Fragment() {
         }
         messengerViewModel.contactList.observe(viewLifecycleOwner, listObserver)
 
-        val root: View = binding.root
-
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {

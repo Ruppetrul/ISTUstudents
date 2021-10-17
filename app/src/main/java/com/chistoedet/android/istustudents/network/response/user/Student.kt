@@ -1,9 +1,7 @@
 package com.chistoedet.android.istustudents.network.response.user
 
 import com.google.gson.annotations.Expose
-
 import com.google.gson.annotations.SerializedName
-import javax.inject.Inject
 
 
 class Student {

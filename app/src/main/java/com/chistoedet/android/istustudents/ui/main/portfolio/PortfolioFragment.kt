@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.chistoedet.android.istustudents.databinding.FragmentGalleryBinding
 
@@ -24,12 +22,11 @@ class PortfolioFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         portfolioViewModel =
             ViewModelProvider(this).get(PortfolioViewModel::class.java)
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
         /*val textView: TextView = binding.textGallery
         portfolioViewModel.text.observe(viewLifecycleOwner, Observer {
@@ -38,7 +35,7 @@ class PortfolioFragment : Fragment() {
 
 
 
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {

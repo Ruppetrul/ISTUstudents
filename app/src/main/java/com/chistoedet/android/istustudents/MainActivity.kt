@@ -2,32 +2,22 @@ package com.chistoedet.android.istustudents
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.widget.TextView
-import androidx.activity.viewModels
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import com.chistoedet.android.istustudents.databinding.ActivityMainBinding
-import androidx.lifecycle.Observer
-import androidx.navigation.NavController
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
-import com.chistoedet.android.istustudents.ui.main.profile.ProfileFragment
-import com.chistoedet.android.istustudents.ui.main.profile.ProfileViewModel
-import com.chistoedet.android.istustudents.ui.main.studentOffice.StudentOfficeViewModel
-import com.chistoedet.android.istustudents.ui.splash.login.LoginFragment
-import kotlin.math.log
+import com.google.android.material.navigation.NavigationView
 
 private val TAG = MainActivity::class.simpleName
 class MainActivity : AppCompatActivity() {

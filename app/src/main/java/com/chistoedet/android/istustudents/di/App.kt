@@ -3,21 +3,19 @@ package com.chistoedet.android.istustudents.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.chistoedet.android.istustudents.ISTUService
 import com.chistoedet.android.istustudents.UserInformation
 import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
-import javax.inject.Inject
-import kotlin.math.log
+
 
 class App : Application() {
 
-    private val SHARED_NAME = "ISTUShared"
+    private val SHAREDNAME = "ISTU_SHARED_PREFERENCES"
 
     private lateinit var component: AppComponent
 
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
 
     private var login : LoginResponse ?= null
     private var user : UserResponse ?= null
@@ -25,7 +23,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         component = DaggerAppComponent.factory().create()
-        sharedPreferences = this.getSharedPreferences("ISTU_SHARED_PREFERENCES",Context.MODE_PRIVATE)
+        sharedPreferences = this.getSharedPreferences(SHAREDNAME,Context.MODE_PRIVATE)
 
     }
 
@@ -35,8 +33,8 @@ class App : Application() {
 
     fun getToken() : String? {
 
-        var token = sharedPreferences.getString("token", null)
-        var tokenType = sharedPreferences.getString("token-type", null)
+        val token = sharedPreferences.getString("token", null)
+        val tokenType = sharedPreferences.getString("token-type", null)
 
         return if (token.isNullOrEmpty() ||  token.isNullOrEmpty()) {
             null
@@ -78,11 +76,11 @@ class App : Application() {
     }
 
     fun getUserInformation() : UserInformation{
-        var passport = sharedPreferences.getString("${user?.getId()}_passport", null)
-        var inn = sharedPreferences.getString("${user?.getId()}_inn", null)
-        var snils = sharedPreferences.getString("${user?.getId()}_snils", null)
+        val passport = sharedPreferences.getString("${user?.getId()}_passport", null)
+        val inn = sharedPreferences.getString("${user?.getId()}_inn", null)
+        val snils = sharedPreferences.getString("${user?.getId()}_snils", null)
 
-        var userInfo = UserInformation()
+        val userInfo = UserInformation()
         userInfo.passport = passport
         userInfo.inn = inn
         userInfo.snils = snils

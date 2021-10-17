@@ -14,7 +14,7 @@ import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.network.response.chats.Staffs
 
 private val TAG = ContactListAdapter::class.simpleName
-class ContactListAdapter() :
+class ContactListAdapter :
     ListAdapter<Staffs, ContactListAdapter.ContactHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactHolder {
@@ -50,9 +50,7 @@ class ContactListAdapter() :
             staffs.latestMessage?.apply {
                 latestMessage.text = this.message
 
-                if (this.isRead == true) {
-
-                }  else {
+                if (this.isRead == false) {
                     latestMessage.setBackgroundColor(Color.GRAY)
                 }
 

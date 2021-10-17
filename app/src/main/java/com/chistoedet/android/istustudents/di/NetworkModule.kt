@@ -9,7 +9,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 abstract class NetworkModule {
@@ -17,7 +16,7 @@ abstract class NetworkModule {
     companion object {
 
         @Provides
-        fun provideOkHttp() : OkHttpClient {
+        fun provideOkHttp(): OkHttpClient {
 
             val loggingInterceptor = HttpLoggingInterceptor()
 
@@ -30,14 +29,12 @@ abstract class NetworkModule {
             }
 
 
-            var client = OkHttpClient.Builder()
+            return OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor())
                 //.addInterceptor(AccessInterceptor(Config.accessToken!!))
                 .followRedirects(false)
                 .addInterceptor(loggingInterceptor)
                 .build()
-
-            return client
         }
 
         @Provides
