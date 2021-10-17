@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/ic_baseline_accessibility_new_24.xml" value="0.1" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/activity_main.xml" value="0.173828125" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/activity_main2.xml" value="0.1328125" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/app_bar_main.xml" value="0.1" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/app_bar_main2.xml" value="0.1328125" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/contact_item.xml" value="0.10555555555555556" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/content_main.xml" value="0.13671875" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/content_main2.xml" value="0.1" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/fragment_contact_list.xml" value="0.23282051282051283" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/fragment_gallery.xml" value="0.1328125" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/fragment_home.xml" value="0.11574074074074074" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/fragment_login.xml" value="0.11574074074074074" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/fragment_slideshow.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/login_fragment.xml" value="0.7154471544715447" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/main_fragment.xml" value="0.35104166666666664" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/nav_header_main.xml" value="0.11574074074074074" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/portfolio_fragment.xml" value="0.11574074074074074" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/profile_fragment.xml" value="0.33" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/spash_activity.xml" value="0.23177083333333334" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/students_office_fragment.xml" value="0.11574074074074074" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/menu/activity_main_drawer.xml" value="0.1" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/menu/main_activity2.xml" value="0.1328125" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/menu/main_activity_drawer.xml" value="0.1" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/menu/main_activity_tools.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
