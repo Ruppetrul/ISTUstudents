@@ -27,7 +27,7 @@ class StudentOfficeFragment : Fragment() {
         fun newInstance() = LoginFragment()
     }
 
-    private val app = (activity?.application as App)
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,7 +56,8 @@ class StudentOfficeFragment : Fragment() {
         }
 
         binding.formStatement.setOnClickListener {
-            formStatement(app.getUserInformation(), app.getUser())
+            studentOfficeViewModel.formStatement()
+
         }
 
         return root

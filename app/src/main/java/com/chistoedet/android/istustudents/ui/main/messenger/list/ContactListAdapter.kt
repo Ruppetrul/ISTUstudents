@@ -50,9 +50,9 @@ class ContactListAdapter :
             staffs.latestMessage?.apply {
                 latestMessage.text = this.message
 
-                if (this.isRead == false) {
+                /*if (this.isRead == false) {
                     latestMessage.setBackgroundColor(Color.GRAY)
-                }
+                }*/
 
             }
 

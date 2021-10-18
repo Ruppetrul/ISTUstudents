@@ -2,6 +2,7 @@ package com.chistoedet.android.istustudents.statement;
 
 import com.chistoedet.android.istustudents.UserInformation;
 import com.chistoedet.android.istustudents.network.response.user.UserResponse;
+
 /*
 * created by Olberwum
 * */
