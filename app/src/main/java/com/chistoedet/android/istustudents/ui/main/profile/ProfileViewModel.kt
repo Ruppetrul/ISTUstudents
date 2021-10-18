@@ -31,13 +31,10 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
     private fun updateInfo() {
 
         val userInfo = getInformation()
-
         userInformation.postValue(userInfo)
-
         passport.postValue(userInfo.passport)
         inn.postValue(userInfo.inn)
         snils.postValue(userInfo.snils)
-
 
     }
 

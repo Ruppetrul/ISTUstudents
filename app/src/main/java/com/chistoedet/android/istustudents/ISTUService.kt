@@ -3,6 +3,7 @@ package com.chistoedet.android.istustudents
 
 import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.requests.LoginRequest
+import com.chistoedet.android.istustudents.network.response.chats.ChatsChatResponse
 import com.chistoedet.android.istustudents.network.response.chats.ChatsResponse
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import okhttp3.ResponseBody
@@ -23,8 +24,7 @@ interface ISTUService {
     @GET("user")
     suspend fun testUser(
         @Header("Authorization") token: String
-    )
-    : Response<UserResponse>
+    ): Response<UserResponse>
 
     @GET("session")
     suspend fun testSession(
@@ -46,6 +46,10 @@ interface ISTUService {
         @Header("Authorization") token: String
     ): Response<ChatsResponse>
 
-
+    @GET("chats/{chat}")
+    suspend fun testChats(
+        @Header("Authorization") token: String,
+        @Path("chat") chat: Int
+    ): Response<ChatsChatResponse>
 
 }

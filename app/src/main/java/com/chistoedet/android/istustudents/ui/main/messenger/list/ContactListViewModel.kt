@@ -18,7 +18,6 @@ class MessengerViewModel(application: Application) : AndroidViewModel(applicatio
 
     private var component = DaggerActivityComponent.builder().dataModule(DataModule(application.applicationContext)).build()
 
-
     var contactList = MutableLiveData<MutableList<Staffs>>()
 
     var app = application

@@ -33,4 +33,6 @@
     <string name="personal_data">Личные данные</string>
     <string name="Выйти">exit</string>
     <string name="form_a_statement">Сформировать заявление</string>
+    <string name="error">Error :(</string>
+    <string name="loading_chat_state">Загрузка</string>
 </resources>

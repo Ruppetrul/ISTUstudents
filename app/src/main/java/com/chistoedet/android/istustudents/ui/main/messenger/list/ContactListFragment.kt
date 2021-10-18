@@ -46,7 +46,7 @@ class ContactListFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
 
-        val chatAdapter = ContactListAdapter()
+        val chatAdapter = ContactListAdapter(parentFragmentManager)
         recyclerView.adapter = chatAdapter
 
         listObserver = Observer<MutableList<Staffs>?> {

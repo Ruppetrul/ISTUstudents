@@ -7,14 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chistoedet.android.istustudents.R
+import com.chistoedet.android.istustudents.network.response.chats.LatestMessage
 import com.chistoedet.android.istustudents.network.response.chats.Staffs
+import com.chistoedet.android.istustudents.ui.main.messenger.chat.ChatFragment
+import com.chistoedet.android.istustudents.ui.main.profile.ProfileFragment
 
 private val TAG = ContactListAdapter::class.simpleName
-class ContactListAdapter :
+class ContactListAdapter(var fragmentManager: FragmentManager) :
     ListAdapter<Staffs, ContactListAdapter.ContactHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactHolder {
@@ -32,11 +36,10 @@ class ContactListAdapter :
 
         private var nameTextView: TextView
         private var latestMessage: TextView
-
+        private lateinit var _staffs: Staffs
 
         init {
             itemView.setOnClickListener(this)
-            Log.i(TAG, "init mess holder")
             nameTextView = itemView.findViewById(R.id.contact_name)
             latestMessage = itemView.findViewById(R.id.latest_message)
         }
@@ -44,15 +47,13 @@ class ContactListAdapter :
         //val bindDrawable: (Drawable) -> Unit = itemImageView::setImageDrawable
 
         fun bindMessage(staffs: Staffs) {
+            _staffs = staffs
+            nameTextView.text = staffs.staff!!.getFamily()
 
-            nameTextView.text = staffs.staff?.getFamily()
+            val latestMess = staffs.latestMessage
+            staffs.latestMessage.apply {
 
-            staffs.latestMessage?.apply {
-                latestMessage.text = this.message
-
-                /*if (this.isRead == false) {
-                    latestMessage.setBackgroundColor(Color.GRAY)
-                }*/
+                latestMessage.text = this?.message
 
             }
 
@@ -61,6 +62,12 @@ class ContactListAdapter :
 
         override fun onClick(v: View?) {
 
+            fragmentManager
+                .beginTransaction()
+                .replace(R.id.nav_host_fragment_content_main, ChatFragment.newInstance(_staffs))
+                //.detach(oldFragment)
+                .addToBackStack(null)
+                .commit()
 
         }
     }

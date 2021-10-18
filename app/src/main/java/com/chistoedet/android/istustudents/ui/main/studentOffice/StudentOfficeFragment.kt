@@ -27,8 +27,6 @@ class StudentOfficeFragment : Fragment() {
         fun newInstance() = LoginFragment()
     }
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,12 +50,10 @@ class StudentOfficeFragment : Fragment() {
                 //.detach(oldFragment)
                 .addToBackStack(null)
                 .commit()
-
         }
 
         binding.formStatement.setOnClickListener {
             studentOfficeViewModel.formStatement()
-
         }
 
         return root

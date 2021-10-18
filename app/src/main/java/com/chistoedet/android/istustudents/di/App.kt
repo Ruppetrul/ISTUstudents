@@ -30,15 +30,12 @@ class App : Application() {
         return component.getApiService()
     }
 
-    fun getToken() : String? {
+    fun getToken() : String {
 
-        val token = sharedPreferences.getString("token", null)
-        val tokenType = sharedPreferences.getString("token-type", null)
+        val token = sharedPreferences.getString("token", "")
+        val tokenType = sharedPreferences.getString("token-type", "")
 
-        return if (token.isNullOrEmpty() ||  token.isNullOrEmpty()) {
-            null
-        } else
-            "$tokenType $token"
+        return "$tokenType $token"
     }
 
     fun saveLastLogin(email: String?) {
