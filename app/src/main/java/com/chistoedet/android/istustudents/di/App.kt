@@ -24,7 +24,6 @@ class App : Application() {
         super.onCreate()
         component = DaggerAppComponent.factory().create()
         sharedPreferences = this.getSharedPreferences(SHAREDNAME,Context.MODE_PRIVATE)
-
     }
 
     fun getLoginService() : ISTUService{
@@ -58,10 +57,8 @@ class App : Application() {
 
     private fun saveToken(login: LoginResponse) {
         sharedPreferences.edit()
-
             .putString("token",login.getAccessToken())
             .putString("token-type",login.getTokenType())
-
             .apply()
     }
 
@@ -99,7 +96,6 @@ class App : Application() {
         sharedPreferences.edit().putString("${user?.getId()}_passport",saveInformation.passport).apply()
         sharedPreferences.edit().putString("${user?.getId()}_inn", saveInformation.inn).apply()
         sharedPreferences.edit().putString("${user?.getId()}_snils", saveInformation.snils).apply()
-
     }
 
 

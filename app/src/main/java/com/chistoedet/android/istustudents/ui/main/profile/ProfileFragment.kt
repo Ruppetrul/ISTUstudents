@@ -48,7 +48,8 @@ class ProfileFragment : Fragment() {
 
             activity?.onBackPressed()
         }
-    }
+
+  }
 
     private fun testPassport(passport: String) : Boolean {
         var test = false

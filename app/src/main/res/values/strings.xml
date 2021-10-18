@@ -32,4 +32,5 @@
     <string name="login_failed">"Login failed"</string>
     <string name="personal_data">Личные данные</string>
     <string name="Выйти">exit</string>
+    <string name="form_a_statement">Сформировать заявление</string>
 </resources>

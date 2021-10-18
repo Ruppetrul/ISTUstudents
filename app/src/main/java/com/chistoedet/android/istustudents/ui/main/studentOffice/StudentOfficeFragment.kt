@@ -51,6 +51,10 @@ class StudentOfficeFragment : Fragment() {
 
         }
 
+        binding.formStatement.setOnClickListener {
+
+        }
+
         return root
     }
 
