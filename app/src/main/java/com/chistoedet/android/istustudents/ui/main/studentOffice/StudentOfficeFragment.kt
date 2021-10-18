@@ -8,8 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.databinding.FragmentStudentBinding
+import com.chistoedet.android.istustudents.di.App
+import com.chistoedet.android.istustudents.statement.StatementFactory
+import com.chistoedet.android.istustudents.statement.StatementFactory.formStatement
 import com.chistoedet.android.istustudents.ui.main.profile.ProfileFragment
 import com.chistoedet.android.istustudents.ui.splash.login.LoginFragment
+import java.sql.Statement
 
 private val TAG = StudentOfficeFragment::class.simpleName
 class StudentOfficeFragment : Fragment() {
@@ -23,7 +27,7 @@ class StudentOfficeFragment : Fragment() {
         fun newInstance() = LoginFragment()
     }
 
-
+    private val app = (activity?.application as App)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +56,7 @@ class StudentOfficeFragment : Fragment() {
         }
 
         binding.formStatement.setOnClickListener {
-
+            formStatement(app.getUserInformation(), app.getUser())
         }
 
         return root
