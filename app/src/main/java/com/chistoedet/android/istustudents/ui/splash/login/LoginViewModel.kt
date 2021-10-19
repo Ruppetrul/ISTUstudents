@@ -64,12 +64,9 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
                             app.setLogin(it.body()!!)
                             app.saveLastLogin(loginBody.email)
                             //activity.getSharedPreferences()
-
                             // TODO сделать состояние
-
-                            Log.d("Login", "onMain")
-                            callbacks?.onMain()
-                        }
+                                getTokenRelevance()
+                            }
                         else -> {
 
                             //Log.d(TAG, "случилась ошибка ${it.errorBody()?.string()}")
@@ -95,7 +92,10 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
             token?.let { it ->
                 component.getApiService().testUser(it).let {
                     if (it.code() == 200) {
-                        callbacks?.onMain()
+                        app.setUser(it.body()!!).let {
+                            callbacks?.onMain()
+                        }
+
                     }
                 }
             }

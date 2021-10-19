@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName
 
 class UserResponse
 {
-
     @SerializedName("id")
     @Expose
     private var id: Int? = null

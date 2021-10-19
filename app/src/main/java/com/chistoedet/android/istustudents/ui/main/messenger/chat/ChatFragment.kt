@@ -13,6 +13,7 @@ import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.databinding.ChatFragmentBinding
 import com.chistoedet.android.istustudents.databinding.ItemMessageReceiveBinding
 import com.chistoedet.android.istustudents.databinding.ItemMessageSendBinding
+import com.chistoedet.android.istustudents.network.response.chats.From
 import com.chistoedet.android.istustudents.network.response.chats.Message
 import com.chistoedet.android.istustudents.network.response.chats.Staffs
 import com.xwray.groupie.GroupAdapter
@@ -22,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 
 private val TAG = ChatFragment::class.java.simpleName
 class ChatFragment(var user: Staffs) : Fragment() {
@@ -42,25 +44,26 @@ class ChatFragment(var user: Staffs) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = ChatFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-
         binding.recyclerView.adapter = messageAdapter
         //receiveAutoResponse()
 
         (activity as AppCompatActivity?)!!.supportActionBar?.title = user.staff?.getFamily() + " " + user.staff?.getName()?.get(0) + "." + user.staff?.getPatronymic()?.get(0) + "."
         viewModel.state.observe(viewLifecycleOwner, stateObserver)
         viewModel.updateChatHistory(user.id!!)
+        receiveAutoResponse()
+
 
         viewModel.chatHistory.observe(viewLifecycleOwner, Observer {
             Log.d(TAG, "пришло на популяцию ${it.size}")
             populateData(it)
-            messageAdapter.notifyDataSetChanged()
+            //messageAdapter.notifyDataSetChanged()
         })
 
     }
@@ -85,10 +88,12 @@ class ChatFragment(var user: Staffs) : Fragment() {
             delay(1000)
             val receive = Message()
             receive.message = "Привет с того света"
-            receive.from?.id = user.id
-            val receiveItem = ReceiveMessageItem(receive)
+            val from = From()
+            from.id = user.id
+            receive.from = from
 
-            messageAdapter.add(receiveItem)
+            viewModel.chatHistory.postValue(mutableListOf(receive))
+
         }
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {

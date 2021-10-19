@@ -60,9 +60,7 @@ class App : Application() {
     }
 
     fun getUser() : UserResponse? {
-        return if (user!!.getId() != null) {
-            user
-        } else null
+        return user
     }
 
     fun setUser(user : UserResponse) {

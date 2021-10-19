@@ -1,11 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.main.studentOffice.StudentOfficeFragment">
+<data>
+    <variable
+        name="user"
+        type="com.chistoedet.android.istustudents.network.response.user.UserResponse" />
+</data>
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:text="@{user.fio}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:text="@{user.email}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:text="@{user.id.toString()}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="@{user.isPPS.toString()}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="@{user.student.get(0).course.toString()}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="@{user.student.get(0).department}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="@{user.student.get(0).speciality}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="@{user.student.get(0).profile}"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
 
     <Button
         app:layout_constraintTop_toTopOf="parent"
@@ -25,4 +77,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+</layout>

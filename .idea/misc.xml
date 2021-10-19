@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/bg_receive_message.xml" value="0.28425925925925927" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/bg_send_message.xml" value="0.1" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/dg_receive_message.xml" value="0.1" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/ic_baseline_accessibility_new_24.xml" value="0.1" />
@@ -22,6 +23,7 @@
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/fragment_slideshow.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/fragment_student.xml" value="0.3292307692307692" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/item_message_receive.xml" value="0.2324074074074074" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/item_message_send.xml" value="0.346875" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/login_fragment.xml" value="0.7154471544715447" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/main_fragment.xml" value="0.35104166666666664" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/nav_header_main.xml" value="0.11574074074074074" />
