@@ -46,13 +46,13 @@ class ContactListFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
 
-        val chatAdapter = ContactListAdapter(parentFragmentManager)
-        recyclerView.adapter = chatAdapter
+        val contactListAdapter = ContactListAdapter(parentFragmentManager)
+        recyclerView.adapter = contactListAdapter
 
         listObserver = Observer<MutableList<Staffs>?> {
-            chatAdapter.apply {
-                submitList(it)
-            }
+
+                it?.let(contactListAdapter::submitList)
+
             Log.d(TAG, "onCreateView: ${it.size}")
         }
         messengerViewModel.contactList.observe(viewLifecycleOwner, listObserver)

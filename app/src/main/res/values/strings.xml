@@ -21,6 +21,7 @@
     <string name="passport">Паспортные данные</string>
     <string name="inn">Инн</string>
     <string name="snils">Снилс</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -35,4 +36,7 @@
     <string name="form_a_statement">Сформировать заявление</string>
     <string name="error">Error :(</string>
     <string name="loading_chat_state">Загрузка</string>
+
+    <string name="empty_latest_message">Сообщений не найдено</string>
+
 </resources>

@@ -7,11 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.chistoedet.android.istustudents.BR
 import com.chistoedet.android.istustudents.R
+import com.chistoedet.android.istustudents.databinding.ContactItemBinding
 import com.chistoedet.android.istustudents.network.response.chats.LatestMessage
 import com.chistoedet.android.istustudents.network.response.chats.Staffs
 import com.chistoedet.android.istustudents.ui.main.messenger.chat.ChatFragment
@@ -22,17 +26,14 @@ class ContactListAdapter(var fragmentManager: FragmentManager) :
     ListAdapter<Staffs, ContactListAdapter.ContactHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.contact_item, parent, false)
-        return ContactHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = DataBindingUtil.inflate<ContactItemBinding>(inflater, viewType, parent, false)
+        return ContactHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ContactHolder, position: Int) {
-        val staffs = getItem(position)
-        Log.i(TAG, "bind message $position")
-        holder.bindMessage(staffs)
-    }
+    override fun onBindViewHolder(holder: ContactHolder, position: Int) = holder.bindMessage(getItem(position))
 
-    inner class ContactHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ContactHolder(private val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         private var nameTextView: TextView
         private var latestMessage: TextView
@@ -47,15 +48,16 @@ class ContactListAdapter(var fragmentManager: FragmentManager) :
         //val bindDrawable: (Drawable) -> Unit = itemImageView::setImageDrawable
 
         fun bindMessage(staffs: Staffs) {
+            binding.setVariable(BR.staffs, staffs)
             _staffs = staffs
-            nameTextView.text = staffs.staff!!.getFamily()
+           /* nameTextView.text = staffs.staff!!.getFamily()
 
             val latestMess = staffs.latestMessage
             staffs.latestMessage.apply {
 
                 latestMessage.text = this?.message
 
-            }
+            }*/
 
             //nameTextView.text = mess
         }
@@ -72,8 +74,6 @@ class ContactListAdapter(var fragmentManager: FragmentManager) :
         }
     }
 
-
-
     companion object {
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<Staffs> =
             object : DiffUtil.ItemCallback<Staffs>() {
@@ -88,6 +88,9 @@ class ContactListAdapter(var fragmentManager: FragmentManager) :
                 }
             }
     }
+
+
+    override fun getItemViewType(position: Int): Int = R.layout.contact_item
 
 
 }
