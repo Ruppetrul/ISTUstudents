@@ -3,6 +3,7 @@ package com.chistoedet.android.istustudents.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.chistoedet.android.istustudents.ISTUService
 import com.chistoedet.android.istustudents.UserInformation
 import com.chistoedet.android.istustudents.network.response.login.LoginResponse
@@ -14,10 +15,8 @@ class App : Application() {
     private val SHAREDNAME = "ISTU_SHARED_PREFERENCES"
 
     private lateinit var component: AppComponent
-
     private lateinit var sharedPreferences: SharedPreferences
 
-    private var login : LoginResponse ?= null
     private var user : UserResponse ?= null
 
     override fun onCreate() {
@@ -30,33 +29,26 @@ class App : Application() {
         return component.getApiService()
     }
 
-    fun getToken() : String {
+    fun getToken() : String? {
 
-        val token = sharedPreferences.getString("token", "")
-        val tokenType = sharedPreferences.getString("token-type", "")
+        val token = sharedPreferences.getString("token", null)
+        val tokenType = sharedPreferences.getString("token-type", null)
 
-        return "$tokenType $token"
+        return if (token == null || tokenType == null) {
+            null
+        } else "$tokenType $token"
+
     }
 
     fun saveLastLogin(email: String?) {
         sharedPreferences.edit().putString("lastLogin", email).apply()
     }
 
-    fun setLogin(login: LoginResponse) {
-        this.login = login
-
-        saveToken(login)
-        sharedPreferences.apply {
+    fun saveToken(login: LoginResponse) {
+            sharedPreferences.apply {
             edit().putString("token", login.getAccessToken()).apply()
             edit().putString("token-type", login.getTokenType()).apply()
         }
-    }
-
-    private fun saveToken(login: LoginResponse) {
-        sharedPreferences.edit()
-            .putString("token",login.getAccessToken())
-            .putString("token-type",login.getTokenType())
-            .apply()
     }
 
     fun getUser() : UserResponse? {
@@ -81,7 +73,6 @@ class App : Application() {
     }
 
     fun logout() {
-        login = null
         user = null
         sharedPreferences.edit().remove("token").apply()
         sharedPreferences.edit().remove("token-type").apply()

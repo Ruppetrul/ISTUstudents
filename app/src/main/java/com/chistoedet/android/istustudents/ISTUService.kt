@@ -5,6 +5,7 @@ import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.requests.LoginRequest
 import com.chistoedet.android.istustudents.network.response.chats.ChatsChatResponse
 import com.chistoedet.android.istustudents.network.response.chats.ChatsResponse
+import com.chistoedet.android.istustudents.network.response.logout.LogoutResponse
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -14,12 +15,13 @@ import retrofit2.http.*
 
 interface ISTUService {
 
-    @GET("/")
-    fun testRequest(): Call<ResponseBody>
-
     @POST("login")
     suspend fun testLogin(@Body loginRequest: LoginRequest
     ): Response<LoginResponse>
+
+    @GET("logout")
+    suspend fun testLogout(@Header("Authorization") token: String
+    ): Response<LogoutResponse>
 
     @GET("user")
     suspend fun testUser(

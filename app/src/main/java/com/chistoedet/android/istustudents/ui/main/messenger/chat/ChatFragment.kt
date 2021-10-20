@@ -57,7 +57,7 @@ class ChatFragment(var user: Staffs) : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar?.title = user.staff?.getFamily() + " " + user.staff?.getName()?.get(0) + "." + user.staff?.getPatronymic()?.get(0) + "."
         viewModel.state.observe(viewLifecycleOwner, stateObserver)
         viewModel.updateChatHistory(user.id!!)
-        receiveAutoResponse()
+        //receiveAutoResponse()
 
 
         viewModel.chatHistory.observe(viewLifecycleOwner, Observer {

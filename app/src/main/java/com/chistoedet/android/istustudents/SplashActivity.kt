@@ -21,8 +21,6 @@ class SplashActivity : AppCompatActivity(), LoginViewModel.Callbacks {
 
     }
 
-
-
     override fun onMain() {
         Log.d("Splash", "onMain")
         val intent = Intent(applicationContext, MainActivity::class.java)

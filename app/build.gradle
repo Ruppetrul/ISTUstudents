@@ -51,6 +51,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 
     // For UI
+
     implementation "com.xwray:groupie:2.7.0"
     implementation "com.xwray:groupie-databinding:2.7.0"
     implementation "com.xwray:groupie-kotlin-android-extensions:2.7.0"

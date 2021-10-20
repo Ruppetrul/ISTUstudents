@@ -32,7 +32,7 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     init {
-        repository = ChatRepository(app.getLoginService(),app.getToken())
+        repository = ChatRepository(app.getLoginService(),app.getToken()!!)
 
     }
 

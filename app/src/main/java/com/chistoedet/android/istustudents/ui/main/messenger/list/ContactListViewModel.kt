@@ -28,19 +28,20 @@ class MessengerViewModel(application: Application) : AndroidViewModel(applicatio
 
     private fun getChatList() {
         val app = (app as App)
-        val token = app.getToken()
-        var user = token?.let {
-            CoroutineScope(Dispatchers.Main).launch {
-        var list = component.getApiService().testChats(it).let { it ->
 
+        app.getToken()?.let {
+            CoroutineScope(Dispatchers.Main).launch {
+                component.getApiService().testChats(it).let { it ->
+
+                    Log.d(TAG, "getChatList: ${it.body().toString()}")
             val list : MutableList<Staffs>? = it.body()?.chats?.staffs?.toMutableList()
-            
+
                 list?.forEach {
-                    
+
                     it.latestMessage?.message.apply {
                         Log.d(TAG, "getChatList: $this")
                     }
-                    
+
                 }
 
             contactList.postValue(list!!)

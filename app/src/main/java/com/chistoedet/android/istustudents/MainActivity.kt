@@ -2,6 +2,8 @@ package com.chistoedet.android.istustudents
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.Menu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,10 @@ import com.chistoedet.android.istustudents.databinding.ActivityMainBinding
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import com.google.android.material.navigation.NavigationView
+import android.widget.Toast
+
+
+
 
 private val TAG = MainActivity::class.simpleName
 class MainActivity : AppCompatActivity() {
@@ -52,11 +58,6 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-
-
-
-        }
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -67,8 +68,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         binding.btnSingOut.setOnClickListener {
-            (application as App).logout()
-            startActivity(Intent(this,SplashActivity::class.java))
+            viewModel.logout()
             finish()
         }
 
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.userLiveData.observe(this, userDateObserver)
-        viewModel.updateUser()
+        //viewModel.updateUser()
 
 
     }
@@ -123,18 +123,29 @@ class MainActivity : AppCompatActivity() {
     }*/
 
 
-
- /*   override fun onBackPressed() {
-        Log.d(TAG, "backStackEntryCount: ${supportFragmentManager.backStackEntryCount} ")
-
-        if(supportFragmentManager.backStackEntryCount == 0) {
-            super.onBackPressed();
+    private var doubleBackToExitPressedOnce = false
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            finish()
         }
-        else {
-            supportFragmentManager.popBackStackImmediate();
+        val count = supportFragmentManager.backStackEntryCount
+        Log.d(TAG, "onBackPressed: $count")
+        if (count == 0) {
+            //super.onBackPressed()
+            this.doubleBackToExitPressedOnce = true
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+            Handler().postDelayed(Runnable {
+                doubleBackToExitPressedOnce = false }, 2000)
+
+
+        } else {
+            supportFragmentManager.popBackStack()
         }
 
-    }*/
+
+
+    }
 
 
 }

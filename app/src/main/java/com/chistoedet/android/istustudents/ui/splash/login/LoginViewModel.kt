@@ -9,11 +9,12 @@ import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.di.DaggerActivityComponent
 import com.chistoedet.android.istustudents.di.DataModule
 import com.chistoedet.android.istustudents.network.requests.LoginRequest
+import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 private val TAG = LoginViewModel::class.simpleName
-class LoginViewModel(application: Application): AndroidViewModel(application) {
+class LoginViewModel constructor(application: Application): AndroidViewModel(application) {
 
     private var component : ActivityComponent = DaggerActivityComponent
         .builder().dataModule(DataModule(application)).build()
@@ -31,7 +32,7 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
 
     init {
         component.inject(this)
-        getTokenRelevance()
+        checkTokenRelevance()
     }
 
     fun test (context: Context) {
@@ -55,26 +56,23 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
         loginBody.password = password
 
         GlobalScope.launch {
-
             try {
                 apiService.testLogin(loginBody).let {
-
-                    when(it.code()) {
-                        200 -> {
-                            app.setLogin(it.body()!!)
-                            app.saveLastLogin(loginBody.email)
-                            //activity.getSharedPreferences()
-                            // TODO сделать состояние
-                                getTokenRelevance()
+                    if (it.code() == 200 && it.body()?.getUserId() != null) {
+                        var user = getUserFromToken("${it.body()?.getTokenType()} ${it.body()?.getAccessToken()}")
+                        if (user == null) {
+                            //TODO show error
+                        } else {
+                            app.saveToken(it.body()!!)
+                            app.setUser(user).let {
+                                callbacks?.onMain()
                             }
-                        else -> {
-
-                            //Log.d(TAG, "случилась ошибка ${it.errorBody()?.string()}")
 
                         }
 
-                    }
+                    } else {
 
+                    }
                 }
             } catch (ex: Exception) {
                 Log.d(TAG, "onViewCreated: ${ex.message}")
@@ -85,21 +83,29 @@ class LoginViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    private fun getTokenRelevance() {
-        GlobalScope.launch {
-            val token = app.getToken()
+    private suspend fun getUserFromToken(token: String) : UserResponse? {
 
-            token?.let { it ->
-                component.getApiService().testUser(it).let {
-                    if (it.code() == 200) {
-                        app.setUser(it.body()!!).let {
-                            callbacks?.onMain()
-                        }
-
-                    }
-                }
-            }
+        token.let { it ->
+            component.getApiService().testUser(it).let {
+                return if (it.code() == 200 && it.body()?.getId() != null) it.body()
+                else null
             }
         }
+
     }
 
+    private fun checkTokenRelevance() {
+        GlobalScope.launch {
+            app.getToken()?.apply {
+                Log.d(TAG, "checkTokenRelevance: $this")
+                    getUserFromToken(this)?.let {
+                            app.setUser(it)
+                            callbacks?.apply {
+                                    this.onMain()
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }

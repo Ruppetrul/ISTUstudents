@@ -71,6 +71,7 @@ class ContactListAdapter(var fragmentManager: FragmentManager) :
                 .addToBackStack(null)
                 .commit()
 
+            fragmentManager.executePendingTransactions()
         }
     }
 

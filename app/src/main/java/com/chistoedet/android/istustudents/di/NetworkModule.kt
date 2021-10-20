@@ -24,7 +24,7 @@ abstract class NetworkModule {
 
             if (BuildConfig.DEBUG) {
 
-                //loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+                loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 
             }
 

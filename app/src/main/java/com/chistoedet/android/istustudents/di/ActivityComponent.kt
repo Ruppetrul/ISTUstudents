@@ -1,6 +1,7 @@
 package com.chistoedet.android.istustudents.di
 
 import com.chistoedet.android.istustudents.ISTUService
+import com.chistoedet.android.istustudents.MainActivity
 import com.chistoedet.android.istustudents.MainActivityViewModel
 import com.chistoedet.android.istustudents.network.repository.ChatRepository
 import com.chistoedet.android.istustudents.ui.main.messenger.chat.ChatViewModel
@@ -20,7 +21,7 @@ interface ActivityComponent {
     fun inject(chatViewModel: ChatViewModel)
     fun inject(messengerViewModel: MessengerViewModel)
     fun inject(chatRepository: ChatRepository)
-
+    fun inject(mainActivity: MainActivity)
     fun getApiService() : ISTUService
 
    // fun getPrefManager() : SharedPreferences
