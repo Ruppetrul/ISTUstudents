@@ -38,5 +38,6 @@
     <string name="loading_chat_state">Загрузка</string>
 
     <string name="empty_latest_message">Сообщений не найдено</string>
+    <string name="connection_error">Ошибка связи</string>
 
 </resources>

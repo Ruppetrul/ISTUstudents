@@ -3,18 +3,33 @@ package com.chistoedet.android.istustudents.ui.splash.login
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import android.widget.TextView
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.chistoedet.android.istustudents.di.ActivityComponent
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.di.DaggerActivityComponent
 import com.chistoedet.android.istustudents.di.DataModule
 import com.chistoedet.android.istustudents.network.requests.LoginRequest
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
+import com.chistoedet.android.istustudents.ui.main.messenger.chat.ChatState
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
+sealed class LoginState {
+    class LoggingState: LoginState()
+    class SendingState: LoginState()
+    class InputState: LoginState()
+    class LoginErrorState(var error: String): LoginState()
+    class ErrorState(var error: String): LoginState()
+}
+
 private val TAG = LoginViewModel::class.simpleName
 class LoginViewModel constructor(application: Application): AndroidViewModel(application) {
+
+    val state = MutableLiveData<LoginState>().apply {
+        postValue(LoginState.LoggingState())
+    }
 
     private var component : ActivityComponent = DaggerActivityComponent
         .builder().dataModule(DataModule(application)).build()
@@ -61,17 +76,15 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
                     if (it.code() == 200 && it.body()?.getUserId() != null) {
                         var user = getUserFromToken("${it.body()?.getTokenType()} ${it.body()?.getAccessToken()}")
                         if (user == null) {
-                            //TODO show error
+                            state.postValue(LoginState.ErrorState("Ошибка подключения"))
                         } else {
                             app.saveToken(it.body()!!)
                             app.setUser(user).let {
                                 callbacks?.onMain()
                             }
-
                         }
-
                     } else {
-
+                        state.postValue(LoginState.LoginErrorState("Неверный логин или пароль"))
                     }
                 }
             } catch (ex: Exception) {
@@ -96,16 +109,20 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
 
     private fun checkTokenRelevance() {
         GlobalScope.launch {
-            app.getToken()?.apply {
-                Log.d(TAG, "checkTokenRelevance: $this")
-                    getUserFromToken(this)?.let {
-                            app.setUser(it)
-                            callbacks?.apply {
-                                    this.onMain()
-                                }
-                            }
-                        }
+            val token = app.getToken()
+            if (token == null) state.postValue(LoginState.InputState())
+             else {
+                val user = getUserFromToken(token)
+                if (user != null && user.getId() != null) {
+                    app.setUser(user)
+                    callbacks?.apply {
+                        this.onMain()
                     }
-
+                } else
+                {
+                    state.postValue(LoginState.InputState())
                 }
             }
+        }
+    }
+}
