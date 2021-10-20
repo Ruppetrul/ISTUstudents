@@ -1,14 +1,13 @@
-package com.chistoedet.android.istustudents
+package com.chistoedet.android.core
 
 
-import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.requests.LoginRequest
 import com.chistoedet.android.istustudents.network.response.chats.ChatsChatResponse
 import com.chistoedet.android.istustudents.network.response.chats.ChatsResponse
+import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.response.logout.LogoutResponse
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 

@@ -3,16 +3,13 @@ package com.chistoedet.android.istustudents.ui.splash.login
 import android.app.Application
 import android.content.Context
 import android.util.Log
-import android.widget.TextView
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.chistoedet.android.istustudents.di.ActivityComponent
+import com.chistoedet.android.core.remote.ISTUProvider
+import com.chistoedet.android.core.remote.ISTUProviderImpl
 import com.chistoedet.android.istustudents.di.App
-import com.chistoedet.android.istustudents.di.DaggerActivityComponent
-import com.chistoedet.android.istustudents.di.DataModule
 import com.chistoedet.android.istustudents.network.requests.LoginRequest
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
-import com.chistoedet.android.istustudents.ui.main.messenger.chat.ChatState
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -31,13 +28,9 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
         postValue(LoginState.LoggingState())
     }
 
-    private var component : ActivityComponent = DaggerActivityComponent
-        .builder().dataModule(DataModule(application)).build()
+    private val api : ISTUProvider = ISTUProviderImpl()
 
-    //@Inject lateinit var apiService: ISTUService
     private var app = (application as App)
-    private var apiService = (application as App)
-        .getLoginService()
 
     private var callbacks: Callbacks? = null
 
@@ -46,7 +39,7 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
     }
 
     init {
-        component.inject(this)
+        //component.inject(this)
         checkTokenRelevance()
     }
 
@@ -65,14 +58,15 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
 
 
     fun onLogin(email: String, password: String) {
-
+        Log.d(TAG, "onLogin: $email")
+        Log.d(TAG, "onLogin: $password")
         val loginBody = LoginRequest()
         loginBody.email = email
         loginBody.password = password
 
         GlobalScope.launch {
             try {
-                apiService.testLogin(loginBody).let {
+                 api. fetchLogin(loginBody).let {
                     if (it.code() == 200 && it.body()?.getUserId() != null) {
                         var user = getUserFromToken("${it.body()?.getTokenType()} ${it.body()?.getAccessToken()}")
                         if (user == null) {
@@ -99,7 +93,7 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
     private suspend fun getUserFromToken(token: String) : UserResponse? {
 
         token.let { it ->
-            component.getApiService().testUser(it).let {
+            api.fetchUser(it).let {
                 return if (it.code() == 200 && it.body()?.getId() != null) it.body()
                 else null
             }

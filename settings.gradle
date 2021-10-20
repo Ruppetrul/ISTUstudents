@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ISTUstudents"
 include ':app'
+include ':core'

@@ -1,6 +1,5 @@
 package com.chistoedet.android.istustudents.ui.splash.login
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.chistoedet.android.istustudents.databinding.LoginFragmentBinding
-import com.chistoedet.android.istustudents.ui.main.messenger.chat.ChatState
 
 private val TAG = LoginFragment::class.java.simpleName
 class LoginFragment : Fragment() {
@@ -81,7 +79,8 @@ class LoginFragment : Fragment() {
 
             // TODO проверки
 
-            viewModel.onLogin(binding.loginEt.text.toString(),
+            viewModel.onLogin(
+                binding.loginEt.text.toString(),
                 binding.passwordEt.text.toString())
 
         }

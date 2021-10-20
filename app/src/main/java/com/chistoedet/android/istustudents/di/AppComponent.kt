@@ -1,7 +1,7 @@
 package com.chistoedet.android.istustudents.di
 
 
-import com.chistoedet.android.istustudents.ISTUService
+import com.chistoedet.android.core.ISTUService
 import dagger.Component
 import javax.inject.Singleton
 

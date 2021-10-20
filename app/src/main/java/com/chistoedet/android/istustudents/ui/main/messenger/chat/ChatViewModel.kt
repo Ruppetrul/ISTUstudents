@@ -1,15 +1,14 @@
 package com.chistoedet.android.istustudents.ui.main.messenger.chat
 
 import android.app.Application
-import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.chistoedet.android.core.remote.ISTUProvider
+import com.chistoedet.android.core.remote.ISTUProviderImpl
 import com.chistoedet.android.istustudents.di.App
-import com.chistoedet.android.istustudents.network.repository.ChatRepository
 import com.chistoedet.android.istustudents.network.response.chats.Message
-import com.chistoedet.android.istustudents.network.response.chats.Staffs
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import java.lang.Appendable
 
 private val TAG = ChatState::class.java.simpleName
 sealed class ChatState {
@@ -22,7 +21,7 @@ sealed class ChatState {
 
 class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var repository : ChatRepository
+    private val api : ISTUProvider = ISTUProviderImpl()
     private var app = (application as App)
 
     var chatHistory = MutableLiveData<MutableList<Message>>()
@@ -31,14 +30,15 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
         postValue(ChatState.LoadingState())
     }
 
-    init {
-        repository = ChatRepository(app.getLoginService(),app.getToken()!!)
+    var token : String
 
+    init {
+        token = app.getToken()!!
     }
 
     fun updateChatHistory(chat: Int) {
         viewModelScope.launch {
-            repository.getChatHistory(chat).let {
+            api.fetchChats(token,chat).let {
                 when (it.code()) {
                     200 -> {
                         state.postValue(ChatState.ActiveChatState())

@@ -3,8 +3,7 @@ package com.chistoedet.android.istustudents.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import com.chistoedet.android.istustudents.ISTUService
+import com.chistoedet.android.core.ISTUService
 import com.chistoedet.android.istustudents.UserInformation
 import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
@@ -25,7 +24,7 @@ class App : Application() {
         sharedPreferences = this.getSharedPreferences(SHAREDNAME,Context.MODE_PRIVATE)
     }
 
-    fun getLoginService() : ISTUService{
+    fun getLoginService() : ISTUService {
         return component.getApiService()
     }
 

@@ -1,8 +1,8 @@
 package com.chistoedet.android.istustudents.di
 
+import com.chistoedet.android.core.ISTUService
 import com.chistoedet.android.istustudents.BuildConfig
 import com.chistoedet.android.istustudents.Config
-import com.chistoedet.android.istustudents.ISTUService
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
