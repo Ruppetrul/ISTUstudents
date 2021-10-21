@@ -10,6 +10,8 @@ import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.network.response.chats.Message
 import kotlinx.coroutines.launch
 
+
+
 private val TAG = ChatState::class.java.simpleName
 sealed class ChatState {
     class LoadingState: ChatState()
@@ -42,9 +44,18 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                 when (it.code()) {
                     200 -> {
                         state.postValue(ChatState.ActiveChatState())
+                        it.body()?.messages.apply {
+                            if (this != null && this.isNotEmpty()) {
+                                state.postValue(ChatState.ActiveChatState())
+                                chatHistory.postValue(this.toMutableList())
+                            } else {
+                                state.postValue(ChatState.NoMessageState())
+                            }
+                        }
 
-                        chatHistory.postValue(it.body()?.messages?.toMutableList()!!)
 
+                    } else -> {
+                    state.postValue(ChatState.ErrorState("Произошла ошибка ${it.code()}"))
                     }
                 }
             }
@@ -52,7 +63,4 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
            // Log.d(TAG, "updateChatHistory: $chatHistory")
         }
     }
-
-
-    
 }

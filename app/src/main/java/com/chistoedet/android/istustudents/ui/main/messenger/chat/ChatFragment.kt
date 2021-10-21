@@ -1,14 +1,14 @@
 package com.chistoedet.android.istustudents.ui.main.messenger.chat
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.databinding.ChatFragmentBinding
 import com.chistoedet.android.istustudents.databinding.ItemMessageReceiveBinding
@@ -23,7 +23,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.internal.notify
 
 private val TAG = ChatFragment::class.java.simpleName
 class ChatFragment(var user: Staffs) : Fragment() {
@@ -114,7 +113,7 @@ class ChatFragment(var user: Staffs) : Fragment() {
                     Log.i(TAG, "ErrorState")
                 }
                 is ChatState.NoMessageState -> {
-                    showChat()
+                    showEmptyChat()
                     Log.i(TAG, "NoMessageState")
                 }
                 is ChatState.ActiveChatState -> {
@@ -122,6 +121,7 @@ class ChatFragment(var user: Staffs) : Fragment() {
                     //chatViewModel.myChatLiveData.observe(viewLifecycleOwner, chatObserver)
                     Log.i(TAG, "ShowChatState")
                 }
+
                 else -> {
 
                 }
@@ -133,43 +133,46 @@ class ChatFragment(var user: Staffs) : Fragment() {
 
     private fun showError() {
         Log.i(TAG,"showError")
-       /* binding.loadingText.visibility = View.INVISIBLE
-        binding.errorText.visibility = View.VISIBLE
-        binding.chatText.visibility = View.INVISIBLE*/
-       /* message.visibility = View.INVISIBLE
-        messages.visibility = View.INVISIBLE
-        errorImage.visibility = View.VISIBLE
-        errorText.visibility = View.VISIBLE
-        tryAgainButton.visibility = View.VISIBLE
-        loadingImage.visibility = View.INVISIBLE*/
+        binding.errorMessageText.visibility = View.VISIBLE
+
+        binding.recyclerView.visibility = View.INVISIBLE
+        binding.button.visibility = View.INVISIBLE
+        binding.editText.visibility = View.INVISIBLE
+        binding.emptyChatHistoryMessageText.visibility = View.INVISIBLE
     }
 
     private fun showChat() {
         Log.i(TAG,"showChat")
-   /*     binding.loadingText.visibility = View.INVISIBLE
-        binding.errorText.visibility = View.INVISIBLE
-        binding.chatText.visibility = View.VISIBLE*/
+        binding.recyclerView.visibility = View.VISIBLE
+        binding.button.visibility = View.VISIBLE
+        binding.editText.visibility = View.VISIBLE
 
-       /* message.visibility = View.VISIBLE
-        messages.visibility = View.VISIBLE
-        errorImage.visibility = View.INVISIBLE
-        errorText.visibility = View.INVISIBLE
-        tryAgainButton.visibility = View.INVISIBLE
-        loadingImage.visibility = View.INVISIBLE*/
+        binding.errorMessageText.visibility = View.INVISIBLE
+        binding.emptyChatHistoryMessageText.visibility = View.INVISIBLE
     }
 
     private fun showLoading() {
         Log.i(TAG,"showLoading")
-      /*  binding.loadingText.visibility = View.VISIBLE
-        binding.errorText.visibility = View.INVISIBLE
-        binding.chatText.visibility = View.INVISIBLE*/
-        /*message.visibility = View.INVISIBLE
-        messages.visibility = View.INVISIBLE
-        errorImage.visibility = View.INVISIBLE
-        errorText.visibility = View.INVISIBLE
-        tryAgainButton.visibility = View.INVISIBLE
-        loadingImage.visibility = View.VISIBLE*/
+
+        binding.recyclerView.visibility = View.INVISIBLE
+        binding.button.visibility = View.INVISIBLE
+        binding.editText.visibility = View.INVISIBLE
+        binding.emptyChatHistoryMessageText.visibility = View.INVISIBLE
+
+        binding.errorMessageText.visibility = View.INVISIBLE
     }
+
+    private fun showEmptyChat() {
+        Log.i(TAG,"showEmptyChat")
+        binding.recyclerView.visibility = View.VISIBLE
+        binding.button.visibility = View.VISIBLE
+        binding.editText.visibility = View.VISIBLE
+        binding.emptyChatHistoryMessageText.visibility = View.VISIBLE
+
+        binding.errorMessageText.visibility = View.INVISIBLE
+
+    }
+
 }
 
 class SendMessageItem(private val message: Message) : BindableItem<ItemMessageSendBinding>() {

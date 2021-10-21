@@ -34,10 +34,13 @@
     <string name="personal_data">Личные данные</string>
     <string name="Выйти">exit</string>
     <string name="form_a_statement">Сформировать заявление</string>
-    <string name="error">Error :(</string>
+    <string name="error">Ошибка :(</string>
     <string name="loading_chat_state">Загрузка</string>
 
     <string name="empty_latest_message">Сообщений не найдено</string>
     <string name="connection_error">Ошибка связи</string>
+    <string name="empty_chat_history_message">История сообщений пуста. Начните диалог.</string>
+    <string name="loading_chat_list_message">Списко контактов загружается</string>
+    <string name="empty_contact_list">Список контактов пуст.</string>
 
 </resources>
