@@ -9,6 +9,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contact_list"
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

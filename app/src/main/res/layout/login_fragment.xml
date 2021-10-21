@@ -9,6 +9,8 @@
     >
 
     <LinearLayout
+        android:id="@+id/login_layout"
+        android:visibility="invisible"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:layout_width="wrap_content"
@@ -51,6 +53,7 @@
         android:id="@+id/error_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:text="@string/connection_error"
         />
 

@@ -3,7 +3,6 @@ package com.chistoedet.android.istustudents
 import android.app.Application
 import android.content.Intent
 import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.chistoedet.android.istustudents.di.App
@@ -59,7 +58,9 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                 if (!it.body()?.message.isNullOrEmpty()) {
                     app.logout()
                     val context = app.baseContext
-                    context.startActivity(Intent(context,SplashActivity::class.java))
+                    val intent = Intent(context,SplashActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    context.startActivity(intent)
                 }
             }
         }

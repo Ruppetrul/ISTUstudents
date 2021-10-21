@@ -33,6 +33,7 @@ class ChatFragment(var user: Staffs) : Fragment() {
 
     private lateinit var viewModel: ChatViewModel
     private lateinit var stateObserver : Observer<ChatState>
+    private lateinit var chatHistoryObserver : Observer<MutableList<Message>>
 
     private var _binding: ChatFragmentBinding? = null
 
@@ -44,6 +45,7 @@ class ChatFragment(var user: Staffs) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = ChatFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -54,51 +56,19 @@ class ChatFragment(var user: Staffs) : Fragment() {
         //receiveAutoResponse()
 
         (activity as AppCompatActivity?)!!.supportActionBar?.title = user.staff?.getFamily() + " " + user.staff?.getName()?.get(0) + "." + user.staff?.getPatronymic()?.get(0) + "."
-        viewModel.state.observe(viewLifecycleOwner, stateObserver)
+
         viewModel.updateChatHistory(user.id!!)
         //receiveAutoResponse()
+    }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        viewModel.chatHistory.observe(viewLifecycleOwner, Observer {
+        chatHistoryObserver = Observer {
             Log.d(TAG, "пришло на популяцию ${it.size}")
             populateData(it)
             //messageAdapter.notifyDataSetChanged()
-        })
-
-    }
-
-    private fun populateData(list: List<Message>) {
-        list.forEach {
-            if (it.from?.id == user.id) {
-                messageAdapter.add(ReceiveMessageItem(it))
-            } else {
-                messageAdapter.add(SendMessageItem(it))
-            }
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.state.removeObserver(stateObserver)
-
-    }
-    private fun receiveAutoResponse() {
-        GlobalScope.launch(Dispatchers.Main) {
-            delay(1000)
-            val receive = Message()
-            receive.message = "Привет с того света"
-            val from = From()
-            from.id = user.id
-            receive.from = from
-
-            viewModel.chatHistory.postValue(mutableListOf(receive))
-
-        }
-    }
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
-        Log.d(TAG, "onActivityCreated: $user")
 
         stateObserver = Observer {
             Log.i(TAG, "new state")
@@ -127,6 +97,45 @@ class ChatFragment(var user: Staffs) : Fragment() {
                 }
             }
         }
+    }
+    private fun populateData(list: List<Message>) {
+        list.forEach {
+            if (it.from?.id == user.id) {
+                messageAdapter.add(ReceiveMessageItem(it))
+            } else {
+                messageAdapter.add(SendMessageItem(it))
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.chatHistory.removeObserver(chatHistoryObserver)
+        viewModel.state.removeObserver(stateObserver)
+
+    }
+    private fun receiveAutoResponse() {
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(1000)
+            val receive = Message()
+            receive.message = "Привет с того света"
+            val from = From()
+            from.id = user.id
+            receive.from = from
+
+            viewModel.chatHistory.postValue(mutableListOf(receive))
+
+        }
+    }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
+
+        viewModel.chatHistory.observe(viewLifecycleOwner, chatHistoryObserver)
+
+        viewModel.state.observe(viewLifecycleOwner, stateObserver)
+
+
         // TODO: Use the ViewModel
     }
 

@@ -103,10 +103,7 @@ class LoginFragment : Fragment() {
 
     private fun showError() {
         Log.i(TAG,"showError")
-        binding.loginEt.visibility = View.INVISIBLE
-        binding.passwordEt.visibility = View.INVISIBLE
-        binding.button.visibility = View.INVISIBLE
-        binding.welcomeText.visibility = View.INVISIBLE
+        binding.loginLayout.visibility = View.INVISIBLE
 
         binding.errorText.visibility = View.VISIBLE
     }
@@ -122,10 +119,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun showLoginError(errorText: String) {
-        binding.loginEt.visibility = View.VISIBLE
-        binding.passwordEt.visibility = View.VISIBLE
-        binding.button.visibility = View.VISIBLE
-        binding.welcomeText.visibility = View.VISIBLE
+        binding.loginLayout.visibility = View.VISIBLE
 
         Toast.makeText(context, errorText, Toast.LENGTH_LONG).show()
 
@@ -133,10 +127,7 @@ class LoginFragment : Fragment() {
 
     private fun showForm() {
         Log.i(TAG,"showForm")
-        binding.loginEt.visibility = View.VISIBLE
-        binding.passwordEt.visibility = View.VISIBLE
-        binding.button.visibility = View.VISIBLE
-        binding.welcomeText.visibility = View.VISIBLE
+        binding.loginLayout.visibility = View.VISIBLE
 
         binding.errorText.visibility = View.INVISIBLE
         /*  binding.loadingText.visibility = View.VISIBLE
