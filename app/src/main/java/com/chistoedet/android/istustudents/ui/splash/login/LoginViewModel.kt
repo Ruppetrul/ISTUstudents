@@ -40,7 +40,6 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
 
     init {
         //component.inject(this)
-        checkTokenRelevance()
     }
 
     fun test (context: Context) {
@@ -73,6 +72,7 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
                             state.postValue(LoginState.ErrorState("Ошибка подключения"))
                         } else {
                             app.saveToken(it.body()!!)
+                            app.saveLastLogin(loginBody.email)
                             app.setUser(user).let {
                                 callbacks?.onMain()
                             }
@@ -101,22 +101,5 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
 
     }
 
-    private fun checkTokenRelevance() {
-        GlobalScope.launch {
-            val token = app.getToken()
-            if (token == null) state.postValue(LoginState.InputState())
-             else {
-                val user = getUserFromToken(token)
-                if (user != null && user.getId() != null) {
-                    app.setUser(user)
-                    callbacks?.apply {
-                        this.onMain()
-                    }
-                } else
-                {
-                    state.postValue(LoginState.InputState())
-                }
-            }
-        }
-    }
+
 }

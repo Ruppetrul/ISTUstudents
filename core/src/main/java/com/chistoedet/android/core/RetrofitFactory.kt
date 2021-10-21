@@ -17,6 +17,7 @@ class RetrofitFactory {
 
             return OkHttpClient.Builder()
                 .addInterceptor(logging)
+                .followRedirects(false)
                 .build()
         }
 
