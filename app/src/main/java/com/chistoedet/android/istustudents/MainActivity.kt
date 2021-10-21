@@ -1,11 +1,11 @@
 package com.chistoedet.android.istustudents
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.Menu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -17,10 +17,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.chistoedet.android.istustudents.databinding.ActivityMainBinding
-import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import com.google.android.material.navigation.NavigationView
-import android.widget.Toast
 
 
 
@@ -68,8 +66,9 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         binding.btnSingOut.setOnClickListener {
-            viewModel.logout()
-            finish()
+            viewModel.logout().let {
+                finish()
+            }
         }
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)

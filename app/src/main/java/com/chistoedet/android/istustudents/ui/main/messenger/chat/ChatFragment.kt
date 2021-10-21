@@ -91,7 +91,9 @@ class ChatFragment(var user: Staffs) : Fragment() {
                     //chatViewModel.myChatLiveData.observe(viewLifecycleOwner, chatObserver)
                     Log.i(TAG, "ShowChatState")
                 }
-
+                is ChatState.ConnectionError -> {
+                    showError()
+                }
                 else -> {
 
                 }
@@ -143,6 +145,9 @@ class ChatFragment(var user: Staffs) : Fragment() {
     private fun showError() {
         Log.i(TAG,"showError")
         binding.errorMessageText.visibility = View.VISIBLE
+        binding.errorMessageText.setOnClickListener {
+            viewModel.updateChatHistory(user.id!!)
+        }
 
         binding.recyclerView.visibility = View.INVISIBLE
         binding.button.visibility = View.INVISIBLE

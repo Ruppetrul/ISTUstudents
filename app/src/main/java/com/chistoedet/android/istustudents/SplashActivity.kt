@@ -31,7 +31,7 @@ class SplashActivity : AppCompatActivity(), LoginViewModel.Callbacks {
             Log.d("State", "onCreate: ${it::class.simpleName}")
             when(it) {
                 is TokenState.CheckingState -> {
-                    //showForm()
+                    onCheckingState()//showForm()
 
                 }
                 is TokenState.IsRelevance -> {
@@ -44,7 +44,9 @@ class SplashActivity : AppCompatActivity(), LoginViewModel.Callbacks {
                     onLogin()
 
                     //chatViewModel.myChatLiveData.removeObserver(chatObserver)
-
+                }
+                is TokenState.ConnectionError -> {
+                    showError()
                 }
 
 
@@ -54,6 +56,14 @@ class SplashActivity : AppCompatActivity(), LoginViewModel.Callbacks {
             }
         }
     }
+
+    private fun onCheckingState() {
+        binding.progressBar.visibility = View.VISIBLE
+
+        binding.connectionErrorText.visibility = View.INVISIBLE
+        binding.container.visibility = View.INVISIBLE
+    }
+
 
     override fun onStart() {
         super.onStart()
@@ -68,6 +78,16 @@ class SplashActivity : AppCompatActivity(), LoginViewModel.Callbacks {
     override fun onStop() {
         super.onStop()
         viewModel.state.removeObserver(stateObserver)
+    }
+
+    private fun showError() {
+        binding.connectionErrorText.visibility = View.VISIBLE
+        binding.connectionErrorText.setOnClickListener {
+            viewModel.checkTokenRelevance()
+        }
+
+        binding.progressBar.visibility = View.INVISIBLE
+        binding.container.visibility = View.INVISIBLE
     }
 
     private fun onLogin() {

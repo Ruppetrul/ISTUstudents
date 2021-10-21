@@ -11,11 +11,10 @@ import com.chistoedet.android.istustudents.network.response.chats.Message
 import kotlinx.coroutines.launch
 
 
-
 private val TAG = ChatState::class.java.simpleName
 sealed class ChatState {
     class LoadingState: ChatState()
-    class SendingState: ChatState()
+    class ConnectionError: ChatState()
     class NoMessageState: ChatState()
     class ActiveChatState: ChatState()
     class ErrorState<T>(val message: T): ChatState()
@@ -40,26 +39,29 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
     fun updateChatHistory(chat: Int) {
         viewModelScope.launch {
-            api.fetchChats(token,chat).let {
-                when (it.code()) {
-                    200 -> {
-                        state.postValue(ChatState.ActiveChatState())
-                        it.body()?.messages.apply {
-                            if (this != null && this.isNotEmpty()) {
-                                state.postValue(ChatState.ActiveChatState())
-                                chatHistory.postValue(this.toMutableList())
-                            } else {
-                                state.postValue(ChatState.NoMessageState())
+            try {
+                api.fetchChats(token,chat).let {
+                    when (it.code()) {
+                        200 -> {
+                            state.postValue(ChatState.ActiveChatState())
+                            it.body()?.messages.apply {
+                                if (this != null && this.isNotEmpty()) {
+                                    state.postValue(ChatState.ActiveChatState())
+                                    chatHistory.postValue(this.toMutableList())
+                                } else {
+                                    state.postValue(ChatState.NoMessageState())
+                                }
                             }
-                        }
 
 
-                    } else -> {
-                    state.postValue(ChatState.ErrorState("Произошла ошибка ${it.code()}"))
+                        } else -> {
+                        state.postValue(ChatState.ErrorState("Произошла ошибка ${it.code()}"))
+                    }
                     }
                 }
+            } catch (e: Exception) {
+                state.postValue(ChatState.ConnectionError())
             }
-
            // Log.d(TAG, "updateChatHistory: $chatHistory")
         }
     }

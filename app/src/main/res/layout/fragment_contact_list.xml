@@ -27,8 +27,8 @@
         />
 
     <TextView
-        android:id="@+id/error_text"
-        android:text="@string/error"
+        android:id="@+id/connection_error_text"
+        android:text="@string/connection_error"
         android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

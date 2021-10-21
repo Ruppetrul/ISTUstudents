@@ -38,7 +38,7 @@
     <string name="loading_chat_state">Загрузка</string>
 
     <string name="empty_latest_message">Сообщений не найдено</string>
-    <string name="connection_error">Ошибка связи</string>
+    <string name="connection_error">Ошибка связи. Нажмите чтобы попробовать снова!</string>
     <string name="empty_chat_history_message">История сообщений пуста. Начните диалог.</string>
     <string name="loading_chat_list_message">Списко контактов загружается</string>
     <string name="empty_contact_list">Список контактов пуст.</string>

@@ -14,6 +14,7 @@ sealed class TokenState {
     class CheckingState: TokenState()
     class IsRelevance: TokenState()
     class IsNotRelevance: TokenState()
+    class ConnectionError: TokenState()
 }
 
 class SplashActivityViewModel(application: Application) : AndroidViewModel(application) {
@@ -41,23 +42,29 @@ class SplashActivityViewModel(application: Application) : AndroidViewModel(appli
     }
 
     fun checkTokenRelevance() {
+        state.postValue(TokenState.CheckingState())
         GlobalScope.launch {
-            val token = app.getToken()
-            if (token == null) state.postValue(TokenState.IsNotRelevance())
-            else {
-                val user = getUserFromToken(token)
-                if (user != null && user.getId() != null) {
-                    app.setUser(user)
-                    state.postValue(TokenState.IsRelevance())
-                    /*callbacks?.apply {
-                        this.onMain()
-                    }*/
-                } else
-                {
-                    state.postValue(TokenState.IsNotRelevance())
-                    //state.postValue(LoginState.InputState())
+            try {
+                val token = app.getToken()
+                if (token == null) state.postValue(TokenState.IsNotRelevance())
+                else {
+                    val user = getUserFromToken(token)
+                    if (user?.getId() != null) {
+                        app.setUser(user)
+                        state.postValue(TokenState.IsRelevance())
+                        /*callbacks?.apply {
+                            this.onMain()
+                        }*/
+                    } else
+                    {
+                        state.postValue(TokenState.IsNotRelevance())
+                        //state.postValue(LoginState.InputState())
+                    }
                 }
+            } catch (e : Exception) {
+                state.postValue(TokenState.ConnectionError())
             }
+
         }
     }
 

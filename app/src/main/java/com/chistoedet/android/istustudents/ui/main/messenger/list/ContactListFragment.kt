@@ -68,22 +68,25 @@ class ContactListFragment : Fragment() {
                 is ChatListState.LoadingState -> {
                     showLoading()
                     viewModel.contactList.removeObserver(listObserver)
-                    Log.i(TAG, "LoadingState")
+
                 }
                 is ChatListState.ErrorState -> {
-                    showError()
+                    showConnectionError()
                     viewModel.contactList.removeObserver(listObserver)
-                    Log.i(TAG, "ErrorState")
+
                 }
                 is ChatListState.ShowState -> {
                     showList()
                     viewModel.contactList.observe(viewLifecycleOwner, listObserver)
-                    Log.i(TAG, "ErrorState")
+
                 }
                 is ChatListState.EmptyListState -> {
                     showEmptyList()
                     viewModel.contactList.removeObserver(listObserver)
-                    Log.i(TAG, "ErrorState")
+
+                }
+                is ChatListState.ConnectionError -> {
+                    showConnectionError()
                 }
 
                 else -> {
@@ -115,21 +118,25 @@ class ContactListFragment : Fragment() {
 
         binding.loadingText.visibility = View.INVISIBLE
         binding.contactList.visibility = View.INVISIBLE
-        binding.errorText.visibility = View.INVISIBLE
+        binding.connectionErrorText.visibility = View.INVISIBLE
     }
 
-    private fun showError() {
-        binding.errorText.visibility = View.VISIBLE
+    private fun showConnectionError() {
+        binding.connectionErrorText.visibility = View.VISIBLE
 
         binding.loadingText.visibility = View.INVISIBLE
         binding.contactList.visibility = View.INVISIBLE
         binding.emptyListText.visibility = View.INVISIBLE
+
+        binding.connectionErrorText.setOnClickListener {
+            viewModel.getChatList()
+        }
     }
 
     private fun showLoading() {
         binding.loadingText.visibility = View.VISIBLE
 
-        binding.errorText.visibility = View.INVISIBLE
+        binding.connectionErrorText.visibility = View.INVISIBLE
         binding.contactList.visibility = View.INVISIBLE
         binding.emptyListText.visibility = View.INVISIBLE
     }
@@ -137,7 +144,7 @@ class ContactListFragment : Fragment() {
     private fun showList() {
         binding.contactList.visibility = View.VISIBLE
 
-        binding.errorText.visibility = View.INVISIBLE
+        binding.connectionErrorText.visibility = View.INVISIBLE
         binding.loadingText.visibility = View.INVISIBLE
         binding.emptyListText.visibility = View.INVISIBLE
     }

@@ -19,63 +19,70 @@ sealed class ChatListState {
     class ErrorState: ChatListState()
     class ShowState: ChatListState()
     class EmptyListState: ChatListState()
+    class ConnectionError: ChatListState()
 }
 
 class ContactListViewModel(application: Application) : AndroidViewModel(application) {
 
-
     var contactList = MutableLiveData<MutableList<Staffs>>()
 
-    private val api : ISTUProvider = ISTUProviderImpl()
+    private val api: ISTUProvider = ISTUProviderImpl()
 
     val state = MutableLiveData<ChatListState>().apply {
         postValue(ChatListState.LoadingState())
     }
 
     var app = application
+
     init {
         getChatList()
     }
 
-    private fun getChatList() {
+    internal fun getChatList() {
         val app = (app as App)
-
-        val token : String? = app.getToken()
+        val token: String? = app.getToken()
 
         if (token != null) {
             CoroutineScope(Dispatchers.Main).launch {
-                api.fetchChats(token).let {
-                    if (it.body()?.chats != null) {
-                        val students = it.body()?.chats!!.students
-                        val staffs = it.body()?.chats!!.staffs
+                try {
+                    api.fetchChats(token).let {
+                        if (it.body()?.chats != null) {
+                            val students = it.body()?.chats!!.students
+                            val staffs = it.body()?.chats!!.staffs
 
-                        if (students != null && staffs != null) {
-                            /*
-                            проверяется список студентов т.к. он приходит
-                            на 21.10.2021 он не реализован
-                            */
-                            if (students.isNotEmpty() || staffs.isNotEmpty()) {
-                                state.postValue(ChatListState.ShowState())
-                                contactList.postValue(staffs.toMutableList())
+                            if (students != null && staffs != null) {
+                                /*
+                                проверяется список студентов т.к. он приходит
+                                на 21.10.2021 он не реализован
+                                */
+                                if (students.isNotEmpty() || staffs.isNotEmpty()) {
+                                    state.postValue(ChatListState.ShowState())
+                                    contactList.postValue(staffs.toMutableList())
+                                } else {
+                                    state.postValue(ChatListState.EmptyListState())
+                                }
+
                             } else {
-                                state.postValue(ChatListState.EmptyListState())
+                                Log.e(TAG, "getChatList: empty students or staffs list received")
+                                state.postValue(ChatListState.ErrorState())
                             }
 
                         } else {
-                            Log.e(TAG, "getChatList: empty students or staffs list received")
+                            Log.e(TAG, "getChatList: empty response received")
                             state.postValue(ChatListState.ErrorState())
                         }
-
-                    } else {
-                        Log.e(TAG, "getChatList: empty response received")
-                        state.postValue(ChatListState.ErrorState())
                     }
+                } catch (e: Exception) {
+                    state.postValue(ChatListState.ConnectionError())
                 }
             }
         } else {
             Log.e(TAG, "getChatList: empty token")
             state.postValue(ChatListState.ErrorState())
         }
+    }
+}
+
 
         /*app.getToken()?.let {
             CoroutineScope(Dispatchers.Main).launch {
@@ -91,5 +98,4 @@ class ContactListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     }*/
-}
-}
+
