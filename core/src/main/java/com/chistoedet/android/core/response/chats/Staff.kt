@@ -3,8 +3,9 @@ package com.chistoedet.android.istustudents.network.response.chats
 import com.google.gson.annotations.Expose
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class Staff {
+class Staff : Serializable {
     @SerializedName("id")
     @Expose
     private var id: Int? = null

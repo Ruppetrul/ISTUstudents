@@ -47,8 +47,8 @@ class ContactListViewModel(application: Application) : AndroidViewModel(applicat
                 try {
                     api.fetchChats(token).let {
                         if (it.body()?.chats != null) {
-                            val students = it.body()?.chats!!.students
-                            val staffs = it.body()?.chats!!.staffs
+                            val students = it.body()?.chats?.students
+                            val staffs = it.body()?.chats?.staffs
 
                             if (students != null && staffs != null) {
                                 /*

@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -45,25 +44,38 @@ class ChatFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
         _binding = ChatFragmentBinding.inflate(inflater, container, false)
+
+        if (savedInstanceState == null) {
+            user = arguments?.getSerializable("user") as Staffs?
+            user?.id?.let { viewModel.updateChatHistory(it) }
+        }
+        binding.recyclerView.adapter = messageAdapter
+
+        //(activity as AppCompatActivity?)!!.supportActionBar?.title = user?.staff?.getFamily() + " " + user?.staff?.getName()?.get(0) + "." + user?.staff?.getPatronymic()?.get(0) + "."
+
+        viewModel.chatHistory.observe(viewLifecycleOwner, chatHistoryObserver)
+
+        viewModel.state.observe(viewLifecycleOwner, stateObserver)
+
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        binding.recyclerView.adapter = messageAdapter
+        Log.d(TAG, "onResume")
 
-        user = arguments?.getSerializable("user") as Staffs
-        (activity as AppCompatActivity?)!!.supportActionBar?.title = user?.staff?.getFamily() + " " + user?.staff?.getName()?.get(0) + "." + user?.staff?.getPatronymic()?.get(0) + "."
+    }
 
-        user?.id?.let { viewModel.updateChatHistory(it) }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("user", user)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        Log.d(TAG, "onCreate")
         activity?.actionBar?.setDisplayHomeAsUpEnabled(true)
 
         chatHistoryObserver = Observer {
@@ -102,6 +114,8 @@ class ChatFragment() : Fragment() {
         }
     }
     private fun populateData(list: List<Message>) {
+        Log.d(TAG, "populateData")
+        messageAdapter.clear()
         list.forEach {
             if (it.from?.id == user?.id) {
                 messageAdapter.add(ReceiveMessageItem(it))
@@ -111,8 +125,14 @@ class ChatFragment() : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy")
+    }
+
     override fun onStop() {
         super.onStop()
+        Log.d(TAG, "onStop")
         viewModel.chatHistory.removeObserver(chatHistoryObserver)
         viewModel.state.removeObserver(stateObserver)
 
@@ -132,11 +152,6 @@ class ChatFragment() : Fragment() {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
-
-        viewModel.chatHistory.observe(viewLifecycleOwner, chatHistoryObserver)
-
-        viewModel.state.observe(viewLifecycleOwner, stateObserver)
 
 
         // TODO: Use the ViewModel

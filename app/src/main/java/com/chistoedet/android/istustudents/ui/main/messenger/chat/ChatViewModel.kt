@@ -1,6 +1,7 @@
 package com.chistoedet.android.istustudents.ui.main.messenger.chat
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import com.chistoedet.android.core.remote.ISTUProviderImpl
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.network.response.chats.Message
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 
 private val TAG = ChatState::class.java.simpleName
@@ -61,6 +63,8 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                 }
             } catch (e: Exception) {
                 state.postValue(ChatState.ConnectionError())
+            } catch (e: IOException) {
+                Log.d(TAG, "updateChatHistory: IORuntimeException")
             }
            // Log.d(TAG, "updateChatHistory: $chatHistory")
         }

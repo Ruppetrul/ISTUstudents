@@ -2,8 +2,9 @@ package com.chistoedet.android.istustudents.network.response.chats
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class ChatsResponse {
+class ChatsResponse: Serializable {
 
     @SerializedName("chats")
     @Expose
