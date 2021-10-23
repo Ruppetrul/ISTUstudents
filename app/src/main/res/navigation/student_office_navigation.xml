@@ -18,6 +18,10 @@
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.chistoedet.android.istustudents.ui.main.profile.ProfileFragment"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_nav_profile_to_nav_student"
+            app:destination="@id/nav_student" />
+    </fragment>
 
 </navigation>

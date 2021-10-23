@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,6 +13,7 @@ import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.databinding.ChatFragmentBinding
 import com.chistoedet.android.istustudents.databinding.ItemMessageReceiveBinding
 import com.chistoedet.android.istustudents.databinding.ItemMessageSendBinding
+
 import com.chistoedet.android.istustudents.network.response.chats.From
 import com.chistoedet.android.istustudents.network.response.chats.Message
 import com.chistoedet.android.istustudents.network.response.chats.Staffs
@@ -53,7 +55,7 @@ class ChatFragment() : Fragment() {
         }
         binding.recyclerView.adapter = messageAdapter
 
-        //(activity as AppCompatActivity?)!!.supportActionBar?.title = user?.staff?.getFamily() + " " + user?.staff?.getName()?.get(0) + "." + user?.staff?.getPatronymic()?.get(0) + "."
+        (activity as AppCompatActivity?)!!.supportActionBar?.title = user?.staff?.getFamily() + " " + user?.staff?.getName()?.get(0) + "." + user?.staff?.getPatronymic()?.get(0) + "."
 
         viewModel.chatHistory.observe(viewLifecycleOwner, chatHistoryObserver)
 

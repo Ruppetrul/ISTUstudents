@@ -5,9 +5,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class ChatsResponse: Serializable {
-
     @SerializedName("chats")
     @Expose
     var chats: Chats ?= null
-
 }

@@ -2,7 +2,6 @@ package com.chistoedet.android.istustudents.ui.main.profile
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import com.chistoedet.android.istustudents.UserInformation
 import com.chistoedet.android.istustudents.di.App
 
@@ -14,12 +13,6 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
 
     // TODO mutable данные
 
-    private val passport = MutableLiveData<String>()
-    private val inn = MutableLiveData<String>()
-    private val snils = MutableLiveData<String>()
-
-    var userInformation = MutableLiveData<UserInformation>()
-
     interface Callbacks {
         fun onSave()
     }
@@ -28,13 +21,9 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
         updateInfo()
         }
 
-    private fun updateInfo() {
+    fun updateInfo() : UserInformation {
 
-        val userInfo = getInformation()
-        userInformation.postValue(userInfo)
-        passport.postValue(userInfo.passport)
-        inn.postValue(userInfo.inn)
-        snils.postValue(userInfo.snils)
+        return getInformation()
 
     }
 

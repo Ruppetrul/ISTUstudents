@@ -135,18 +135,17 @@ class MainActivity : AppCompatActivity(), ContactListAdapter.Callbacks, Navigati
 
 
 
-    private var doubleBackToExitPressedOnce = false
+  /*  private var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             finish()
         }
+
         val count = supportFragmentManager.backStackEntryCount
         Log.d(TAG, "onBackPressed: $count")
-        super.onBackPressed()
 
-        //super.onBackPressed()
-       /* if (count == 0) {
-            //super.onBackPressed()
+        if (count == 0) {
+            super.onBackPressed()
             this.doubleBackToExitPressedOnce = true
             Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
 
@@ -156,11 +155,9 @@ class MainActivity : AppCompatActivity(), ContactListAdapter.Callbacks, Navigati
 
         } else {
             supportFragmentManager.popBackStack()
-        }*/
+        }
 
-
-
-    }
+    }*/
 
     override fun onChatSelected(user: Staffs) {
         // navController.navigate(R.id.action_nav_contact_list_to_nav_contact_chat)
