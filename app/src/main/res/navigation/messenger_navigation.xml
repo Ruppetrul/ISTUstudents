@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/nav_contact_list"
+    android:id="@+id/nav_messenger">
+
+    <fragment
+        android:id="@+id/nav_contact_list"
+        android:name="com.chistoedet.android.istustudents.ui.main.messenger.list.ContactListFragment"
+        android:label="Контакты"
+        tools:layout="@layout/fragment_contact_list" >
+        <action
+            android:id="@+id/action_nav_contact_list_to_nav_chat"
+            app:destination="@id/nav_chat" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.chistoedet.android.istustudents.ui.main.messenger.chat.ChatFragment"
+        tools:layout="@layout/chat_fragment" >
+        <action
+            android:id="@+id/action_nav_chat_to_nav_contact_list"
+            app:destination="@id/nav_contact_list" />
+    </fragment>
+
+</navigation>

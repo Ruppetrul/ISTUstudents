@@ -25,6 +25,12 @@ class LoginFragment : Fragment() {
     private var _binding: LoginFragmentBinding?= null
     private val binding get() = _binding!!
 
+    private var callbacks: Callbacks? = null
+
+    interface Callbacks {
+        fun onMainFromLogin(fragment: LoginFragment)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,13 +39,16 @@ class LoginFragment : Fragment() {
 
         _binding = LoginFragmentBinding.inflate(layoutInflater, container, false)
         val root = binding.root
+
+        if (activity is Callbacks) callbacks = activity as Callbacks?
+
         return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        context?.let { viewModel.test(it) }
+        //requireContext().applicationContext.let { viewModel.test(it) }
         binding.loginEt.setText(viewModel.getLastLogin())
 
         stateObserver = Observer {
@@ -60,6 +69,9 @@ class LoginFragment : Fragment() {
                 }
                 is LoginState.LoginErrorState -> {
                     showLoginError(it.error)
+                }
+                is LoginState.LoginSuccessful -> {
+                    callbacks?.onMainFromLogin(this)
                 }
                 else -> {
 
@@ -109,7 +121,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun showLogging() {
-        Log.i(TAG,"showChat")
   /*      binding.loginEt.visibility = View.INVISIBLE
         binding.passwordEt.visibility = View.INVISIBLE
         binding.button.visibility = View.INVISIBLE

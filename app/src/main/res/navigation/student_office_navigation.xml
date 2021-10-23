@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/nav_student"
+    android:id="@+id/nav_student_office">
+
+    <fragment
+        android:id="@+id/nav_student"
+        android:name="com.chistoedet.android.istustudents.ui.main.studentOffice.StudentOfficeFragment"
+        android:label="@string/student_section"
+        tools:layout="@layout/fragment_student" >
+        <action
+            android:id="@+id/action_nav_student_to_nav_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.chistoedet.android.istustudents.ui.main.profile.ProfileFragment"
+        tools:layout="@layout/profile_fragment" />
+
+</navigation>

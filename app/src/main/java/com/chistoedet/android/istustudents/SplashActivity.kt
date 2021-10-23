@@ -9,9 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.chistoedet.android.istustudents.databinding.SpashActivityBinding
 import com.chistoedet.android.istustudents.ui.splash.login.LoginFragment
-import com.chistoedet.android.istustudents.ui.splash.login.LoginViewModel
 
-class SplashActivity : AppCompatActivity(), LoginViewModel.Callbacks {
+class SplashActivity : AppCompatActivity(), LoginFragment.Callbacks {
 
     private lateinit var binding: SpashActivityBinding
 
@@ -25,6 +24,10 @@ class SplashActivity : AppCompatActivity(), LoginViewModel.Callbacks {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get(SplashActivityViewModel::class.java)
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, LoginFragment.newInstance())
+            .commit()
 
         stateObserver = Observer {
 
@@ -94,17 +97,21 @@ class SplashActivity : AppCompatActivity(), LoginViewModel.Callbacks {
         binding.progressBar.visibility = View.INVISIBLE
         binding.container.visibility = View.VISIBLE
 
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, LoginFragment.newInstance())
-            .commitNow()
+
     }
 
-    override fun onMain() {
-        Log.d("Splash", "onMain")
+    private fun onMain() {
         val intent = Intent(applicationContext, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
+
+    override fun onMainFromLogin(fragment: LoginFragment) {
+        Log.d("Splash", "onMain")
+
+        onMain()
+    }
+
 
 
 }

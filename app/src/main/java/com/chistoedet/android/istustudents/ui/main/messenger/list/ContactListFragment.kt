@@ -45,7 +45,7 @@ class ContactListFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         binding.contactList.layoutManager = layoutManager
 
-        contactListAdapter = ContactListAdapter(parentFragmentManager)
+        contactListAdapter = ContactListAdapter()
         binding.contactList.adapter = contactListAdapter
 
         return binding.root

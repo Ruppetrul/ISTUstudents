@@ -1,29 +1,29 @@
 package com.chistoedet.android.istustudents.ui.main.messenger.list
 
-import android.graphics.Color
-import android.util.Log
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.FragmentManager
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.chistoedet.android.istustudents.BR
 import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.databinding.ContactItemBinding
-import com.chistoedet.android.istustudents.network.response.chats.LatestMessage
 import com.chistoedet.android.istustudents.network.response.chats.Staffs
-import com.chistoedet.android.istustudents.ui.main.messenger.chat.ChatFragment
-import com.chistoedet.android.istustudents.ui.main.profile.ProfileFragment
 
 private val TAG = ContactListAdapter::class.simpleName
-class ContactListAdapter(var fragmentManager: FragmentManager) :
+class ContactListAdapter() :
     ListAdapter<Staffs, ContactListAdapter.ContactHolder>(DIFF_CALLBACK) {
+
+    private var callbacks: Callbacks? = null
+
+    interface Callbacks {
+        fun onChatSelected(user: Staffs)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -45,41 +45,21 @@ class ContactListAdapter(var fragmentManager: FragmentManager) :
             latestMessage = itemView.findViewById(R.id.latest_message)
         }
 
-        //val bindDrawable: (Drawable) -> Unit = itemImageView::setImageDrawable
-
         fun bindMessage(staffs: Staffs) {
             binding.setVariable(BR.staffs, staffs)
             _staffs = staffs
-           /* nameTextView.text = staffs.staff!!.getFamily()
-
-            val latestMess = staffs.latestMessage
-            staffs.latestMessage.apply {
-
-                latestMessage.text = this?.message
-
-            }*/
-
-            //nameTextView.text = mess
         }
 
         override fun onClick(v: View?) {
-
-            fragmentManager
-                .beginTransaction()
-                .replace(R.id.nav_host_fragment_content_main, ChatFragment.newInstance(_staffs))
-                //.detach(oldFragment)
-                .addToBackStack(null)
-                .commit()
-
-            fragmentManager.executePendingTransactions()
+            var bundle = Bundle()
+            bundle.putSerializable("user", _staffs)
+            v?.findNavController()?.navigate(R.id.action_nav_contact_list_to_nav_chat, bundle)
         }
     }
 
     companion object {
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<Staffs> =
             object : DiffUtil.ItemCallback<Staffs>() {
-
-
                 override fun areItemsTheSame(oldItem: Staffs, newItem: Staffs): Boolean {
                     return oldItem === newItem
                 }
@@ -92,6 +72,5 @@ class ContactListAdapter(var fragmentManager: FragmentManager) :
 
 
     override fun getItemViewType(position: Int): Int = R.layout.contact_item
-
 
 }

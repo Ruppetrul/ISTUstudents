@@ -3,13 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_student">
+    app:startDestination="@+id/nav_student_office">
 
-    <fragment
-        android:id="@+id/nav_student"
-        android:name="com.chistoedet.android.istustudents.ui.main.studentOffice.StudentOfficeFragment"
-        android:label="@string/student_section"
-        tools:layout="@layout/fragment_student" />
+    <include app:graph="@navigation/student_office_navigation"/>
 
     <fragment
         android:id="@+id/nav_portfolio"
@@ -17,16 +13,7 @@
         android:label="@string/portfolio_section"
         tools:layout="@layout/fragment_gallery" />
 
-    <fragment
-        android:id="@+id/nav_messenger"
-        android:name="com.chistoedet.android.istustudents.ui.main.messenger.list.ContactListFragment"
-        android:label="@string/messenger_section"
-        tools:layout="@layout/fragment_contact_list" />
+    <include app:graph="@navigation/messenger_navigation"/>
 
-    <fragment
-        android:id="@+id/nav_profile"
-        android:name="com.chistoedet.android.istustudents.ui.main.messenger.list.ContactListFragment"
-        android:label="@string/messenger_section"
-        tools:layout="@layout/fragment_contact_list" />
 
 </navigation>

@@ -25,10 +25,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private val TAG = ChatFragment::class.java.simpleName
-class ChatFragment(var user: Staffs) : Fragment() {
+class ChatFragment() : Fragment() {
 
     companion object {
-        fun newInstance(user : Staffs) = ChatFragment(user)
+        fun newInstance() = ChatFragment()
     }
 
     private lateinit var viewModel: ChatViewModel
@@ -38,7 +38,7 @@ class ChatFragment(var user: Staffs) : Fragment() {
     private var _binding: ChatFragmentBinding? = null
 
     private val binding get() = _binding!!
-
+    private var user : Staffs ?= null
     private val messageAdapter = GroupAdapter<GroupieViewHolder>()
 
     override fun onCreateView(
@@ -53,21 +53,22 @@ class ChatFragment(var user: Staffs) : Fragment() {
     override fun onResume() {
         super.onResume()
         binding.recyclerView.adapter = messageAdapter
-        //receiveAutoResponse()
 
-        (activity as AppCompatActivity?)!!.supportActionBar?.title = user.staff?.getFamily() + " " + user.staff?.getName()?.get(0) + "." + user.staff?.getPatronymic()?.get(0) + "."
+        user = arguments?.getSerializable("user") as Staffs
+        (activity as AppCompatActivity?)!!.supportActionBar?.title = user?.staff?.getFamily() + " " + user?.staff?.getName()?.get(0) + "." + user?.staff?.getPatronymic()?.get(0) + "."
 
-        viewModel.updateChatHistory(user.id!!)
-        //receiveAutoResponse()
+        user?.id?.let { viewModel.updateChatHistory(it) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+        activity?.actionBar?.setDisplayHomeAsUpEnabled(true)
+
         chatHistoryObserver = Observer {
             Log.d(TAG, "пришло на популяцию ${it.size}")
             populateData(it)
-            //messageAdapter.notifyDataSetChanged()
         }
 
         stateObserver = Observer {
@@ -102,7 +103,7 @@ class ChatFragment(var user: Staffs) : Fragment() {
     }
     private fun populateData(list: List<Message>) {
         list.forEach {
-            if (it.from?.id == user.id) {
+            if (it.from?.id == user?.id) {
                 messageAdapter.add(ReceiveMessageItem(it))
             } else {
                 messageAdapter.add(SendMessageItem(it))
@@ -122,7 +123,7 @@ class ChatFragment(var user: Staffs) : Fragment() {
             val receive = Message()
             receive.message = "Привет с того света"
             val from = From()
-            from.id = user.id
+            from.id = user?.id
             receive.from = from
 
             viewModel.chatHistory.postValue(mutableListOf(receive))
@@ -146,7 +147,7 @@ class ChatFragment(var user: Staffs) : Fragment() {
         Log.i(TAG,"showError")
         binding.errorMessageText.visibility = View.VISIBLE
         binding.errorMessageText.setOnClickListener {
-            viewModel.updateChatHistory(user.id!!)
+            viewModel.updateChatHistory(user?.id!!)
         }
 
         binding.recyclerView.visibility = View.INVISIBLE

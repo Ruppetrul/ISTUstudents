@@ -1,7 +1,6 @@
 package com.chistoedet.android.istustudents.ui.splash.login
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +14,7 @@ import kotlinx.coroutines.launch
 
 sealed class LoginState {
     class LoggingState: LoginState()
-    class SendingState: LoginState()
+    class LoginSuccessful: LoginState()
     class InputState: LoginState()
     class LoginErrorState(var error: String): LoginState()
     class ErrorState(var error: String): LoginState()
@@ -32,29 +31,17 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
 
     private var app = (application as App)
 
-    private var callbacks: Callbacks? = null
 
-    interface Callbacks {
-        fun onMain()
-    }
 
     init {
         //component.inject(this)
     }
 
-    fun test (context: Context) {
-        callbacks = context as Callbacks
-    }
+
 
     fun getLastLogin() : String? {
         return app.getLastLogin()
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        callbacks = null
-    }
-
 
     fun onLogin(email: String, password: String) {
         Log.d(TAG, "onLogin: $email")
@@ -74,7 +61,7 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
                             app.saveToken(it.body()!!)
                             app.saveLastLogin(loginBody.email)
                             app.setUser(user).let {
-                                callbacks?.onMain()
+                                state.postValue(LoginState.LoginSuccessful())
                             }
                         }
                     } else {
