@@ -2,11 +2,15 @@ package com.chistoedet.android.istustudents
 
 
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
+import android.text.SpannableString
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -19,13 +23,25 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.chistoedet.android.istustudents.databinding.ActivityMainBinding
-import com.chistoedet.android.istustudents.network.response.chats.Staffs
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
-import com.chistoedet.android.istustudents.ui.main.messenger.list.ContactListAdapter
 import com.google.android.material.navigation.NavigationView
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.VKTokenExpiredHandler
+import com.vk.api.sdk.auth.VKAccessToken
+import com.vk.api.sdk.auth.VKAuthCallback
+import com.vk.api.sdk.auth.VKScope
+import com.vk.api.sdk.exceptions.VKAuthException
+import com.vk.sdk.api.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+
+
+
 
 private val TAG = MainActivity::class.simpleName
-class MainActivity : AppCompatActivity(), ContactListAdapter.Callbacks, NavigationView.OnNavigationItemSelectedListener  {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -39,6 +55,7 @@ class MainActivity : AppCompatActivity(), ContactListAdapter.Callbacks, Navigati
     var graph: NavGraph? = null
 
     var drawerLayout: DrawerLayout ?= null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +74,6 @@ class MainActivity : AppCompatActivity(), ContactListAdapter.Callbacks, Navigati
 
         val navView: NavigationView = binding.navView
         navView.setNavigationItemSelectedListener(this)
-
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
@@ -99,7 +115,40 @@ class MainActivity : AppCompatActivity(), ContactListAdapter.Callbacks, Navigati
         viewModel.userLiveData.observe(this, userDateObserver)
         //viewModel.updateUser()
 
+        CoroutineScope(Dispatchers.Main).launch {
+            VK.isLoggedIn().let {
+                if (it) {
 
+                } else {
+                    showAlertDialog()
+                }
+            }
+        }
+
+        //VK.initialize(this)
+
+    }
+
+    fun showAlertDialog() {
+        val webaddress = SpannableString(
+            "Для полноценной работы приложения необходимо авторизоваться в ВКонтакте. Иначе будут недоступны некоторые функции"
+        )
+        //Linkify.addLinks(webaddress, Linkify.ALL)
+
+        val aboutDialog: AlertDialog = AlertDialog.Builder(
+            this
+        ).setMessage(webaddress)
+            .setPositiveButton("Войти", DialogInterface.OnClickListener { dialog, which ->
+                VK.login(this@MainActivity, arrayListOf(VKScope.WALL, VKScope.FRIENDS))
+            })
+            .setNegativeButton("Я козёл", DialogInterface.OnClickListener { dialog, which ->
+
+            }).create()
+
+        aboutDialog.show()
+
+        /*(aboutDialog.findViewById(android.R.id.message) as TextView).movementMethod =
+            LinkMovementMethod.getInstance()*/
     }
 
     override fun onStop() {
@@ -118,76 +167,30 @@ class MainActivity : AppCompatActivity(), ContactListAdapter.Callbacks, Navigati
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val callback = object: VKAuthCallback {
+            override fun onLogin(token: VKAccessToken) {
+                Log.d("TAG", "onLogin: ")
+            }
 
-   /* override fun onProfile(oldFragment: Fragment, fragmentManager: FragmentManager) {
-
-        val fragment = ProfileFragment.newInstance()
-        fragmentManager
-            .beginTransaction()
-            .replace(R.id.nav_host_fragment_content_main, fragment, oldFragment.tag)
-            //.detach(oldFragment)
-            .addToBackStack(oldFragment.tag)
-            .commit()
-
-        Log.d(TAG, "backStackEntryCount: ${fragmentManager.backStackEntryCount} ")
-
-    }*/
-
-
-
-  /*  private var doubleBackToExitPressedOnce = false
-    override fun onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            finish()
+            override fun onLoginFailed(authException: VKAuthException) {
+                Log.d("TAG", "onLoginFailed: ")
+            }
         }
-
-        val count = supportFragmentManager.backStackEntryCount
-        Log.d(TAG, "onBackPressed: $count")
-
-        if (count == 0) {
-            super.onBackPressed()
-            this.doubleBackToExitPressedOnce = true
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
-
-            Handler().postDelayed(Runnable {
-                doubleBackToExitPressedOnce = false }, 2000)
-
-
-        } else {
-            supportFragmentManager.popBackStack()
+        if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
+            super.onActivityResult(requestCode, resultCode, data)
         }
+    }
 
-    }*/
-
-    override fun onChatSelected(user: Staffs) {
-        // navController.navigate(R.id.action_nav_contact_list_to_nav_contact_chat)
+    private val tokenTracker = object: VKTokenExpiredHandler {
+        override fun onTokenExpired() {
+            Log.d("TOKEN", "onTokenExpired")
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        Log.d(TAG, "onNavigationItemSelected: ${item}")
-       /* when (item.itemId) {
-                R.id.nav_contact_list ->
-                supportFragmentManager.beginTransaction().replace(
-                R.id.nav_host_fragment_content_main,
-                ContactListFragment.newInstance())
-                .addToBackStack(null)
-                .commit()
-
-
-           *//* R.id.nav_profile -> supportFragmentManager.beginTransaction().replace(
-                R.id.fragment_container,
-                ProfileFragment()
-            ).commit()
-            R.id.nav_share -> Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
-            R.id.nav_send -> Toast.makeText(this, "Send", Toast.LENGTH_SHORT).show()
-        *//*}
-
-
-        drawerLayout?.closeDrawer(GravityCompat.START);*/
-
-        return true
+        TODO("Not yet implemented")
     }
-
 
 }
 

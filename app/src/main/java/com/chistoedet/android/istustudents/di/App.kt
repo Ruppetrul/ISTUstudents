@@ -28,6 +28,12 @@ class App : Application() {
         return component.getApiService()
     }
 
+    // VK
+
+    fun saveVkAccessToken(token: String) {
+
+    }
+
     fun getToken() : String? {
 
         val token = sharedPreferences.getString("token", null)

@@ -12,6 +12,8 @@ import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.databinding.FragmentStudentBinding
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.ui.splash.login.LoginFragment
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.auth.VKScope
 
 private val TAG = StudentOfficeFragment::class.simpleName
 class StudentOfficeFragment : Fragment() {
@@ -47,6 +49,12 @@ class StudentOfficeFragment : Fragment() {
             studentOfficeViewModel.formStatement()
         }
 
+
+
+        binding.vkLogin.setOnClickListener {
+            activity?.let { it1 -> VK.login(it1, arrayListOf(VKScope.WALL, VKScope.FRIENDS)) }
+        }
+
         return root
     }
 
@@ -55,6 +63,12 @@ class StudentOfficeFragment : Fragment() {
         var user = app.getUser()
         Log.d(TAG, "onResume: ${user?.getFio()}")
         binding.user = user
+
+        binding.vkLogin.apply {
+            VK.isLoggedIn().let {
+                this.isEnabled = !it
+            }
+        }
     }
 
     override fun onDestroyView() {

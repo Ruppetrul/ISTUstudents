@@ -1,4 +1,4 @@
-package com.chistoedet.android.core.remote
+package com.chistoedet.android.core.remote.istu
 
 import com.chistoedet.android.istustudents.network.requests.LoginRequest
 import com.chistoedet.android.istustudents.network.response.chats.ChatsChatResponse

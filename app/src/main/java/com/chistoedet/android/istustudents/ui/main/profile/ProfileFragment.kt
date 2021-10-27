@@ -13,6 +13,15 @@ import androidx.navigation.fragment.findNavController
 import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.UserInformation
 import com.chistoedet.android.istustudents.databinding.ProfileFragmentBinding
+import com.vk.api.sdk.VK
+import com.vk.api.sdk.auth.VKScope
+import ru.tinkoff.decoro.MaskImpl
+import ru.tinkoff.decoro.slots.PredefinedSlots
+import ru.tinkoff.decoro.watchers.FormatWatcher
+import ru.tinkoff.decoro.watchers.MaskFormatWatcher
+
+
+
 
 private val TAG = ProfileFragment::class.java.simpleName
 private val TAG_PASSPORT = "passport"
@@ -40,11 +49,11 @@ class ProfileFragment : Fragment() {
         _binding = ProfileFragmentBinding.inflate(layoutInflater, container, false)
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
         if (savedInstanceState == null) {
-            viewModel.updateInfo().let {
+            /*viewModel.updateInfo().let {
                 binding.passportEt.setText(it.passport)
                 binding.SNILSEt.setText(it.snils)
                 binding.INNEt.setText(it.inn)
-            }
+            }*/
         }
 
         binding.profileLinearLayout.visibility = View.VISIBLE
@@ -55,6 +64,18 @@ class ProfileFragment : Fragment() {
             saveInformation.snils = binding.SNILSEt.text.toString()
             checkAndSaveInfo(saveInformation)
         }
+
+        val format: FormatWatcher = MaskFormatWatcher(
+            MaskImpl.createTerminated(PredefinedSlots.RUS_PASSPORT) // маска для серии и номера
+        )
+        format.installOn(binding.passportEt)
+
+        val formatNumber: FormatWatcher = MaskFormatWatcher(
+            MaskImpl.createTerminated(PredefinedSlots.RUS_PHONE_NUMBER) // маска для серии и номера
+        )
+        formatNumber.installOn(binding.numberEt)
+
+
 
         return binding.root
     }

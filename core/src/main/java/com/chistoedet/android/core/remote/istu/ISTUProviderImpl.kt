@@ -1,4 +1,4 @@
-package com.chistoedet.android.core.remote
+package com.chistoedet.android.core.remote.istu
 
 import com.chistoedet.android.core.RetrofitFactory
 import com.chistoedet.android.istustudents.network.requests.LoginRequest
@@ -9,7 +9,7 @@ import com.chistoedet.android.istustudents.network.response.logout.LogoutRespons
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import retrofit2.Response
 
-class ISTUProviderImpl : ISTUProvider{
+class ISTUProviderImpl : ISTUProvider {
 
     override suspend fun fetchLogin(loginRequest: LoginRequest): Response<LoginResponse> {
         return RetrofitFactory.getApiService().testLogin(loginRequest)

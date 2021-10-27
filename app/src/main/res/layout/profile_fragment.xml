@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:id="@+id/profile_linear_layout"
-        android:visibility="invisible"
+
         android:layout_width="wrap_content"
         android:minWidth="160dp"
         android:layout_height="wrap_content"
@@ -23,6 +23,7 @@
 
         <EditText
             android:id="@+id/passport_et"
+            android:inputType="numberSigned"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minWidth="100dp"/>
@@ -49,12 +50,27 @@
             android:layout_height="wrap_content"
             android:minWidth="100dp"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/number" />
+
+        <EditText
+            android:id="@+id/number_et"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="100dp"/>
+
         <Button
             android:id="@+id/save_btn"
             android:text="@string/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
+
+
+
     </LinearLayout>
 
 

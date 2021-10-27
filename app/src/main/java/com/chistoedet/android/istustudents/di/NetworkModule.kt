@@ -23,11 +23,8 @@ abstract class NetworkModule {
             // Только в режиме отладки
 
             if (BuildConfig.DEBUG) {
-
                 loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-
             }
-
 
             return OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor())

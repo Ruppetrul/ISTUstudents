@@ -3,8 +3,8 @@ package com.chistoedet.android.istustudents
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.chistoedet.android.core.remote.ISTUProvider
-import com.chistoedet.android.core.remote.ISTUProviderImpl
+import com.chistoedet.android.core.remote.istu.ISTUProvider
+import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import kotlinx.coroutines.GlobalScope

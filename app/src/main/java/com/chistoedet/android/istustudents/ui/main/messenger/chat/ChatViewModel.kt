@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.chistoedet.android.core.remote.ISTUProvider
-import com.chistoedet.android.core.remote.ISTUProviderImpl
+import com.chistoedet.android.core.remote.istu.ISTUProvider
+import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.network.response.chats.Message
 import kotlinx.coroutines.launch

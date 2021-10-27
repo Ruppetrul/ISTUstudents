@@ -2,7 +2,6 @@ package com.chistoedet.android.istustudents
 
 import android.app.Application
 import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.chistoedet.android.istustudents.di.App
@@ -13,10 +12,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+
+
+
 private val TAG = MainActivityViewModel::class.simpleName
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
 
     private var component = DaggerActivityComponent.builder().dataModule(DataModule(application)).build()
+    //private val vkApi : VkProvider = VkProviderImpl(application.baseContext)
 
     var userLiveData = MutableLiveData<UserResponse>()
     var app : App
@@ -26,31 +29,18 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         component.inject(this)
         app = (application as App)
         token = app.getToken()
+
+        //checkVkSuccess()
         }
 
 
-    fun updateUser() {
+   /* suspend fun checkVkSuccess(): Boolean {
 
-        var user = token?.let {
-            CoroutineScope(Dispatchers.Main).launch {
-                component.getApiService().testUser(it).let {
-                    it.code().apply {
-                        when (this) {
-                            200 -> {
-                                userLiveData.postValue(it.body())
-                                app.setUser(it.body()!!)
-                            }
-                            else -> {
-                                Log.e(TAG, "updateUser: update error")
-                            }
-                        }
-                    }
+        //return vkApi.getAccessBool()
+
+    }*/
 
 
-            }
-        }
-    }
-}
 
     fun logout() {
         CoroutineScope(Dispatchers.Main).launch {
@@ -64,6 +54,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                 }
             }
         }
+
+    }
+
+    fun vkAutorization() {
 
     }
 }
