@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
+        <!--<item
+            android:id="@+id/nav_news"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/messenger_section" />-->
         <item
             android:id="@+id/nav_student_office"
             android:icon="@drawable/ic_menu_camera"
@@ -14,9 +18,6 @@
             android:id="@+id/nav_messenger"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/messenger_section" />
-        <item
-            android:id="@+id/nav_news"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/messenger_section" />
+
     </group>
 </menu>

@@ -87,6 +87,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.nav_student,
                 R.id.nav_portfolio,
                 R.id.nav_messenger,
+                R.id.nav_news
             ), drawerLayout
         )
 

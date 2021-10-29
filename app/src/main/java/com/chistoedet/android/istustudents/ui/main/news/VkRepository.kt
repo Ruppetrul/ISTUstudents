@@ -16,8 +16,8 @@ class VkRepository {
                 WallService().wallGet(
                     UserId(VK_PUBLIC_ID),
                     null,
-                   1,
-                    1,
+                   offset,
+                    pageSize,
                     null,
                     null)
             )
