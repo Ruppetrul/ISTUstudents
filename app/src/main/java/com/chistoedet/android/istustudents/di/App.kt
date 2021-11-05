@@ -1,13 +1,18 @@
 package com.chistoedet.android.istustudents.di
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import com.chistoedet.android.core.ISTUService
+import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.UserInformation
 import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 
+const val NOTIFICATION_CHANNEL_ID = "flickr_poll"
 
 class App : Application() {
 
@@ -20,6 +25,18 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // Test notify
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.notification_channel_name)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel =
+                NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance)
+            val notificationManager: NotificationManager =
+                getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+        //
         component = DaggerAppComponent.factory().create()
         sharedPreferences = this.getSharedPreferences(SHAREDNAME,Context.MODE_PRIVATE)
     }

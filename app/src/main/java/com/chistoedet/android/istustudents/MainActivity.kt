@@ -22,6 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.*
 import com.chistoedet.android.istustudents.databinding.ActivityMainBinding
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import com.google.android.material.navigation.NavigationView
@@ -35,9 +36,7 @@ import com.vk.sdk.api.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-
-
+import java.util.*
 
 
 private val TAG = MainActivity::class.simpleName
@@ -125,8 +124,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
             }
         }
-
-        //VK.initialize(this)
 
     }
 
