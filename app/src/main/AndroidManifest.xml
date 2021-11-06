@@ -4,8 +4,11 @@
     android:installLocation="internalOnly">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.QUICKBOOT_POWERON" />
     <application
         android:name=".di.App"
         android:allowBackup="true"
@@ -30,12 +33,16 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receivers.BootCompletedIntentReceiver" >
+        <receiver
+            android:name=".services.news.BootCompletedReceiver"
+            android:exported="true"
+            android:enabled="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.REBOOT" />
-                <action android:name="com.bignerdranch.android.photogallery.SHOW_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
 

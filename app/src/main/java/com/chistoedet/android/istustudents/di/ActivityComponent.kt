@@ -1,18 +1,22 @@
 package com.chistoedet.android.istustudents.di
 
-import com.chistoedet.android.core.ISTUService
+import android.content.Context
+import com.chistoedet.android.core.remote.istu.ISTUProvider
 import com.chistoedet.android.istustudents.MainActivity
 import com.chistoedet.android.istustudents.MainActivityViewModel
+import com.chistoedet.android.istustudents.SplashActivityViewModel
+import com.chistoedet.android.istustudents.services.news.NewsPollingWorker
 import com.chistoedet.android.istustudents.ui.main.messenger.chat.ChatViewModel
 import com.chistoedet.android.istustudents.ui.main.messenger.list.ContactListViewModel
-
 import com.chistoedet.android.istustudents.ui.splash.login.LoginViewModel
+import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Named
 import javax.inject.Singleton
 
-//@PerActivity
+@PerActivity
 @Singleton
-@Component(modules = [NetworkModule::class, DataModule::class])
+@Component(modules = [NetworkModule::class])
 interface ActivityComponent {
 
     fun inject(loginFragmentViewModel: LoginViewModel)
@@ -20,22 +24,29 @@ interface ActivityComponent {
     fun inject(mainViewModel: MainActivityViewModel)
     fun inject(chatViewModel: ChatViewModel)
     fun inject(messengerViewModel: ContactListViewModel)
+    fun inject(newsPollingWorker: NewsPollingWorker)
 
     fun inject(mainActivity: MainActivity)
-    fun getApiService() : ISTUService
+    fun inject(splashActivityViewModel: SplashActivityViewModel)
 
-   // fun getPrefManager() : SharedPreferences
+    fun getISTUProvider() : ISTUProvider
 
-    @Component.Builder
+    fun getPreferenceRepository() : SharedRepositoryImpl
+
+
+    /*@Component.Builder
     interface Builder {
         fun build() : ActivityComponent
-        fun dataModule(dataModule: DataModule) : Builder
-    }
-/*    @Component.Factory
+        @BindsInstance
+        fun context(context: Context) : Builder
+    }*/
+
+    @Component.Factory
+    @Singleton
     interface Factory {
         fun create(
-            @BindsInstance @Named ("context") context : Context
+            @BindsInstance @Named("context") context : Context
         ): ActivityComponent
-    }*/
+    }
 
 }

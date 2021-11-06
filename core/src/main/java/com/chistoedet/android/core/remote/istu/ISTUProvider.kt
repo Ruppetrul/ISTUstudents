@@ -6,6 +6,7 @@ import com.chistoedet.android.istustudents.network.response.chats.ChatsResponse
 import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.response.logout.LogoutResponse
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 interface ISTUProvider {
@@ -19,5 +20,11 @@ interface ISTUProvider {
     suspend fun fetchChats(token: String) : Response<ChatsResponse>
 
     suspend fun fetchChats(token: String, chat: Int) : Response<ChatsChatResponse>
+
+    suspend fun fetchStaff(token: String) : Response<ResponseBody>
+
+    suspend fun fetchStudent(token: String) : Response<ResponseBody>
+
+    suspend fun fetchSession(token: String) : Response<ResponseBody>
 
 }

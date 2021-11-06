@@ -7,15 +7,9 @@ import com.chistoedet.android.istustudents.di.App
 
 class ProfileViewModel(application: Application) : AndroidViewModel(application) {
 
-    private var callbacks: Callbacks? = null
-
     private val app = (application as App)
 
     // TODO mutable данные
-
-    interface Callbacks {
-        fun onSave()
-    }
 
     init {
         updateInfo()

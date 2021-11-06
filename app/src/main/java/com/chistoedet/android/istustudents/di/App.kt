@@ -9,7 +9,6 @@ import android.os.Build
 import com.chistoedet.android.core.ISTUService
 import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.UserInformation
-import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 
 const val NOTIFICATION_CHANNEL_ID = "flickr_poll"
@@ -51,26 +50,9 @@ class App : Application() {
 
     }
 
-    fun getToken() : String? {
-
-        val token = sharedPreferences.getString("token", null)
-        val tokenType = sharedPreferences.getString("token-type", null)
-
-        return if (token == null || tokenType == null) {
-            null
-        } else "$tokenType $token"
-
-    }
 
     fun saveLastLogin(email: String?) {
         sharedPreferences.edit().putString("lastLogin", email).apply()
-    }
-
-    fun saveToken(login: LoginResponse) {
-            sharedPreferences.apply {
-            edit().putString("token", login.getAccessToken()).apply()
-            edit().putString("token-type", login.getTokenType()).apply()
-        }
     }
 
     fun getUser() : UserResponse? {

@@ -47,7 +47,6 @@ class NewsFragment : Fragment() {
 
         VK.isLoggedIn().apply {
             if (this) {
-
                 CoroutineScope(Dispatchers.IO).launch {
                     viewModel.news.collectLatest {
                         contactListAdapter.submitData(it)

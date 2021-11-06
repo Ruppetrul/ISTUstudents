@@ -7,6 +7,7 @@ import com.chistoedet.android.istustudents.network.response.chats.ChatsResponse
 import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.response.logout.LogoutResponse
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 class ISTUProviderImpl : ISTUProvider {
@@ -29,6 +30,18 @@ class ISTUProviderImpl : ISTUProvider {
 
     override suspend fun fetchChats(token: String, chat: Int): Response<ChatsChatResponse> {
         return RetrofitFactory.getApiService().testChats(token, chat)
+    }
+
+    override suspend fun fetchStaff(token: String): Response<ResponseBody> {
+        return RetrofitFactory.getApiService().testStaff(token)
+    }
+
+    override suspend fun fetchStudent(token: String): Response<ResponseBody> {
+        return RetrofitFactory.getApiService().testStudent(token)
+    }
+
+    override suspend fun fetchSession(token: String): Response<ResponseBody> {
+        return RetrofitFactory.getApiService().testSession(token)
     }
 
 }

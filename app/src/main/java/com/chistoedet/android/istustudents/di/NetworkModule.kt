@@ -1,6 +1,8 @@
 package com.chistoedet.android.istustudents.di
 
 import com.chistoedet.android.core.ISTUService
+import com.chistoedet.android.core.remote.istu.ISTUProvider
+import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
 import com.chistoedet.android.istustudents.BuildConfig
 import com.chistoedet.android.istustudents.Config
 import dagger.Module
@@ -48,7 +50,10 @@ abstract class NetworkModule {
         fun provideApiService(retrofit: Retrofit) : ISTUService {
             return retrofit.create(ISTUService::class.java)
         }
+
+        @Provides
+        fun provideISTUProvider(): ISTUProvider {
+            return ISTUProviderImpl()
+        }
     }
-
-
 }

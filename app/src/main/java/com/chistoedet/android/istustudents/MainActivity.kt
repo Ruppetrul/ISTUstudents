@@ -97,6 +97,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.btnSingOut.setOnClickListener {
             viewModel.logout().let {
+                VK.isLoggedIn().let {
+                    VK.logout()
+                }
                 finish()
             }
         }

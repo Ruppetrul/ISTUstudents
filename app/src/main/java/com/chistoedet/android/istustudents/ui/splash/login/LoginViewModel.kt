@@ -5,12 +5,16 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.chistoedet.android.core.remote.istu.ISTUProvider
-import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
+import com.chistoedet.android.istustudents.di.ActivityComponent
 import com.chistoedet.android.istustudents.di.App
+import com.chistoedet.android.istustudents.di.DaggerActivityComponent
+import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
 import com.chistoedet.android.istustudents.network.requests.LoginRequest
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+
 
 sealed class LoginState {
     class LoggingState: LoginState()
@@ -27,17 +31,19 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
         postValue(LoginState.LoggingState())
     }
 
-    private val api : ISTUProvider = ISTUProviderImpl()
+    @Inject
+    lateinit var api : ISTUProvider
+
+    @Inject
+    lateinit var shared: SharedRepositoryImpl
 
     private var app = (application as App)
 
-
+    var component : ActivityComponent = DaggerActivityComponent.factory().create(application)
 
     init {
-        //component.inject(this)
+        component.inject(this)
     }
-
-
 
     fun getLastLogin() : String? {
         return app.getLastLogin()
@@ -52,13 +58,13 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
 
         GlobalScope.launch {
             try {
-                 api. fetchLogin(loginBody).let {
+                 api.fetchLogin(loginBody).let {
                     if (it.code() == 200 && it.body()?.getUserId() != null) {
                         var user = getUserFromToken("${it.body()?.getTokenType()} ${it.body()?.getAccessToken()}")
                         if (user == null) {
                             state.postValue(LoginState.ErrorState("Ошибка подключения"))
                         } else {
-                            app.saveToken(it.body()!!)
+                            shared.setToken(it.body()!!)
                             app.saveLastLogin(loginBody.email)
                             app.setUser(user).let {
                                 state.postValue(LoginState.LoginSuccessful())

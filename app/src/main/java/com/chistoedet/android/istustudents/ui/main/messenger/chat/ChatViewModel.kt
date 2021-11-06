@@ -6,11 +6,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.chistoedet.android.core.remote.istu.ISTUProvider
-import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
-import com.chistoedet.android.istustudents.di.App
+import com.chistoedet.android.istustudents.di.ActivityComponent
+import com.chistoedet.android.istustudents.di.DaggerActivityComponent
+import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
 import com.chistoedet.android.istustudents.network.response.chats.Message
 import kotlinx.coroutines.launch
 import java.io.IOException
+import javax.inject.Inject
 
 
 private val TAG = ChatState::class.java.simpleName
@@ -24,8 +26,13 @@ sealed class ChatState {
 
 class ChatViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val api : ISTUProvider = ISTUProviderImpl()
-    private var app = (application as App)
+    @Inject
+    lateinit var api : ISTUProvider
+
+    @Inject
+    lateinit var shared: SharedRepositoryImpl
+
+    var component : ActivityComponent = DaggerActivityComponent.factory().create(application)
 
     var chatHistory = MutableLiveData<MutableList<Message>>()
 
@@ -36,7 +43,8 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     var token : String
 
     init {
-        token = app.getToken()!!
+        component.inject(this)
+        token = shared.getToken()!!
     }
 
     fun updateChatHistory(chat: Int) {

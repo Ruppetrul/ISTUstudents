@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.chistoedet.android.istustudents.R
+import com.vk.sdk.api.wall.dto.WallWallpostFull
 
 class NotificationProvider {
 
@@ -15,7 +16,7 @@ class NotificationProvider {
         val NOTIFICATION_CHANNEL_ID = "test_channel"
         val REQUEST_CODE = "REQUEST_CODE"
 
-        fun showNotification(context: Context, text: String) : Boolean {
+        fun showNotificationPost(context: Context, wallPostResponse: WallWallpostFull) : Boolean {
             val notificationManager = NotificationManagerCompat.from(context)
             if (!notificationManager.areNotificationsEnabled()) return false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -37,8 +38,8 @@ class NotificationProvider {
                 .Builder(context, NOTIFICATION_CHANNEL_ID)
                 .setTicker("Ticker")
                 .setSmallIcon(android.R.drawable.ic_menu_report_image)
-                .setContentTitle("TITTLE")
-                .setContentText(text)
+                .setContentTitle("Новость")
+                .setContentText(wallPostResponse.text?.substring(0,100))
                 //.setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .build()

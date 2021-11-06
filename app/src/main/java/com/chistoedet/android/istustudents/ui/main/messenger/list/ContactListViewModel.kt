@@ -5,12 +5,14 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.chistoedet.android.core.remote.istu.ISTUProvider
-import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
-import com.chistoedet.android.istustudents.di.App
+import com.chistoedet.android.istustudents.di.ActivityComponent
+import com.chistoedet.android.istustudents.di.DaggerActivityComponent
+import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
 import com.chistoedet.android.istustudents.network.response.chats.Staffs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private val TAG = ContactListViewModel::class.simpleName
 
@@ -26,21 +28,25 @@ class ContactListViewModel(application: Application) : AndroidViewModel(applicat
 
     var contactList = MutableLiveData<MutableList<Staffs>>()
 
-    private val api: ISTUProvider = ISTUProviderImpl()
-
     val state = MutableLiveData<ChatListState>().apply {
         postValue(ChatListState.LoadingState())
     }
 
-    var app = application
+    @Inject
+    lateinit var api : ISTUProvider
+
+    @Inject
+    lateinit var shared: SharedRepositoryImpl
+
+    var component : ActivityComponent = DaggerActivityComponent.factory().create(application)
 
     init {
+        component.inject(this)
         getChatList()
     }
 
     internal fun getChatList() {
-        val app = (app as App)
-        val token: String? = app.getToken()
+        val token: String? = shared.getToken()
 
         if (token != null) {
             CoroutineScope(Dispatchers.Main).launch {

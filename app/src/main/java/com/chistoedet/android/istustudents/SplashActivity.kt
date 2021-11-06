@@ -18,8 +18,6 @@ class SplashActivity : AppCompatActivity(), LoginFragment.Callbacks {
 
     private lateinit var stateObserver : Observer<TokenState>
 
-    private val POLL_WORK = "POLL_WORK"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = SpashActivityBinding.inflate(layoutInflater)

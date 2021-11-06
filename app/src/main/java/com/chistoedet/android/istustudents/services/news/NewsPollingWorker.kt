@@ -1,49 +1,66 @@
 package com.chistoedet.android.istustudents.services.news
 
 import android.content.Context
-import android.os.Build
-import android.widget.Toast
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.chistoedet.android.istustudents.Config
+import com.chistoedet.android.istustudents.di.DaggerActivityComponent
+import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
 import com.chistoedet.android.istustudents.notification.NotificationProvider
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKApiCallback
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.wall.WallService
 import com.vk.sdk.api.wall.dto.WallGetResponse
+import com.vk.sdk.api.wall.dto.WallWallpostFull
+import javax.inject.Inject
 
 
 class NewsPollingWorker(var context: Context, workerParameters: WorkerParameters)
     : Worker(context, workerParameters) {
 
+    private var component = DaggerActivityComponent.factory().create(context)
+
+    @Inject
+    lateinit var sharedRepository : SharedRepositoryImpl
+
+    init {
+        component.inject(this)
+    }
+
     override fun doWork(): Result {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            context.mainExecutor.execute {
-                Toast.makeText(applicationContext,"doWork", Toast.LENGTH_LONG).show()
-            }
-        } else {
-            Toast.makeText(applicationContext, "doWork", Toast.LENGTH_LONG).show()
-        }
-
-
         if (
-           // token != null &&
-            VK.isLoggedIn()) {
+
+        VK.isLoggedIn()) {
 
             VK.execute(
                 WallService().wallGet(
                     UserId(Config.VK_PUBLIC_ID),
                     null,
                     null,
-                    null,
+                    5,
                     null,
                     null), object: VKApiCallback<WallGetResponse> {
                     override fun success(result: WallGetResponse) {
 
-                        result.items.last().text?.let { NotificationProvider.showNotification(applicationContext, it.substring(0,100)) }
+                       if (sharedRepository.getNewsHistorySize() == 0) {
+                           sharedRepository.setNewsHistorySize(result.count)
+                        }
 
+                        if (result.count > sharedRepository.getNewsHistorySize()) {
+                            val delta = result.count - sharedRepository.getNewsHistorySize()
+                            for (i in 1..delta) {
+                                val post = result.items[i]
+                                    NotificationProvider.showNotificationPost(applicationContext, post)
+                                }
+                            }
+                        // TODO for tests
+                        else {
+                            NotificationProvider.showNotificationPost(applicationContext, WallWallpostFull())
+                        }
+
+                        sharedRepository.setNewsHistorySize(result.count)
                     }
                     override fun fail(error: Exception) {
 
@@ -55,18 +72,4 @@ class NewsPollingWorker(var context: Context, workerParameters: WorkerParameters
         return Result.success()
     }
 
-
-        //TODO перенести в провайдер
-        fun getToken() : String? {
-            val SHAREDNAME = "ISTU_SHARED_PREFERENCES"
-            var sharedPreferences = context.getSharedPreferences(SHAREDNAME, Context.MODE_PRIVATE)
-            val token = sharedPreferences.getString("token", null)
-            val tokenType = sharedPreferences.getString("token-type", null)
-
-            return if (token == null || tokenType == null) {
-                null
-            } else "$tokenType $token"
-
-        }
-
-        }
+}
