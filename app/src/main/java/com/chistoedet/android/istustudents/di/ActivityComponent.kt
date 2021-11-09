@@ -8,13 +8,14 @@ import com.chistoedet.android.istustudents.SplashActivityViewModel
 import com.chistoedet.android.istustudents.services.news.NewsPollingWorker
 import com.chistoedet.android.istustudents.ui.main.messenger.chat.ChatViewModel
 import com.chistoedet.android.istustudents.ui.main.messenger.list.ContactListViewModel
+import com.chistoedet.android.istustudents.ui.main.profile.ProfileViewModel
 import com.chistoedet.android.istustudents.ui.splash.login.LoginViewModel
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Named
 import javax.inject.Singleton
 
-@PerActivity
+//@PerActivity
 @Singleton
 @Component(modules = [NetworkModule::class])
 interface ActivityComponent {
@@ -28,6 +29,7 @@ interface ActivityComponent {
 
     fun inject(mainActivity: MainActivity)
     fun inject(splashActivityViewModel: SplashActivityViewModel)
+    fun inject(profileViewModel: ProfileViewModel)
 
     fun getISTUProvider() : ISTUProvider
 

@@ -46,7 +46,7 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
     }
 
     fun getLastLogin() : String? {
-        return app.getLastLogin()
+        return shared.getLastLogin()
     }
 
     fun onLogin(email: String, password: String) {
@@ -65,7 +65,7 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
                             state.postValue(LoginState.ErrorState("Ошибка подключения"))
                         } else {
                             shared.setToken(it.body()!!)
-                            app.saveLastLogin(loginBody.email)
+                            shared.saveLastLogin(loginBody.email)
                             app.setUser(user).let {
                                 state.postValue(LoginState.LoginSuccessful())
                             }
@@ -85,7 +85,7 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
 
     private suspend fun getUserFromToken(token: String) : UserResponse? {
 
-        token.let { it ->
+        token.apply { it ->
             api.fetchUser(it).let {
                 return if (it.code() == 200 && it.body()?.getId() != null) it.body()
                 else null

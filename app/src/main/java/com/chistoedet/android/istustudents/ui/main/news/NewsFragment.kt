@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chistoedet.android.istustudents.databinding.NewsFragmentBinding
@@ -29,6 +30,8 @@ class NewsFragment : Fragment() {
     private lateinit var viewModel: NewsViewModel
 
     private lateinit var contactListAdapter : NewsListAdapter
+
+    private lateinit var stateObserver : Observer<VKState>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,12 +58,43 @@ class NewsFragment : Fragment() {
             }
         }
 
+        stateObserver = Observer {
+            when(it) {
+                is VKState.LoginState -> {
+                    showNews()
+                }
+                is VKState.NotLoginState -> {
+                    showError()
+                }
+
+                else -> {
+
+                }
+            }
+        }
+
         return binding.root
+    }
+
+    private fun showError() {
+        binding.newsList.visibility = View.INVISIBLE
+        binding.vkErrorText.visibility = View.VISIBLE
+    }
+
+    private fun showNews() {
+        binding.newsList.visibility = View.VISIBLE
+        binding.vkErrorText.visibility = View.INVISIBLE
     }
 
     override fun onResume() {
         super.onResume()
+        if (VK.isLoggedIn()) viewModel.state.postValue(VKState.LoginState())
+        viewModel.state.observe(viewLifecycleOwner, stateObserver)
+    }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.state.removeObserver(stateObserver)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

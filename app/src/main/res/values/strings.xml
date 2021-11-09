@@ -47,5 +47,6 @@
     <string name="number">Номер телефона</string>
     <string name="news_section">Новости</string>
     <string name="notification_channel_name">FlickrFetchr</string>
+    <string name="vk_news_error">Для отображения новостей нужно авторизоваться ВКонтакте.</string>
 
 </resources>

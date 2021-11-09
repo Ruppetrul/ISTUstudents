@@ -9,8 +9,9 @@ import android.widget.Toast
 import androidx.work.*
 import java.util.concurrent.TimeUnit
 
+val NOTIFY_WORK = "NOTIFY_WORK"
 class BootCompletedReceiver : BroadcastReceiver() {
-    private val NOTIFY_WORK = "NOTIFY_WORK"
+
     override fun onReceive(context: Context, intent: Intent) {
 
         val constraints = Constraints.Builder()

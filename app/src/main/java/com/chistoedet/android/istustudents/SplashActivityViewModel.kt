@@ -44,11 +44,6 @@ class SplashActivityViewModel(application: Application) : AndroidViewModel(appli
     private suspend fun getUserFromToken(token: String) : UserResponse? {
         token.let { it ->
 
-            // from test
-            api.fetchChats(token)
-            api.fetchStudent(token)
-            api.fetchSession(token)
-
             api.fetchUser(it).let {
                 return if (it.code() == 200 && it.body()?.getId() != null) it.body()
                 else null

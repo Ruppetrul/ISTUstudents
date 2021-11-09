@@ -10,4 +10,11 @@
         android:layout_height="match_parent"
         />
 
+    <TextView
+        android:id="@+id/vk_error_text"
+        android:text="@string/vk_news_error"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </FrameLayout>

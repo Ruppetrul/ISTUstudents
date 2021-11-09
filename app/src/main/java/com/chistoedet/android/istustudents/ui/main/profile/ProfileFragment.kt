@@ -13,8 +13,6 @@ import androidx.navigation.fragment.findNavController
 import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.UserInformation
 import com.chistoedet.android.istustudents.databinding.ProfileFragmentBinding
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.auth.VKScope
 import ru.tinkoff.decoro.MaskImpl
 import ru.tinkoff.decoro.slots.PredefinedSlots
 import ru.tinkoff.decoro.watchers.FormatWatcher
@@ -96,12 +94,12 @@ class ProfileFragment : Fragment() {
     }
 
     private fun checkAndSaveInfo(currentUserInfo: UserInformation) {
-        val newUserInfo = viewModel.updateInfo()
+        val newUserInfo = viewModel.getInformation()
 
         //TODO проверки
-        if (newUserInfo.passport != currentUserInfo.passport ||
-            newUserInfo.snils != currentUserInfo.snils ||
-            newUserInfo.inn != currentUserInfo.inn) {
+        if (newUserInfo?.passport != currentUserInfo.passport ||
+            newUserInfo?.snils != currentUserInfo.snils ||
+            newUserInfo?.inn != currentUserInfo.inn) {
             viewModel.saveInfo(currentUserInfo)
         }
     }
@@ -112,7 +110,7 @@ class ProfileFragment : Fragment() {
 
     }
 
-    private fun testPassport(passport: String) : Boolean {
+    /*private fun testPassport(passport: String) : Boolean {
         var test = false
         if (passport.isBlank()) {
             // TODO показать ошибку паспорт
@@ -152,7 +150,7 @@ class ProfileFragment : Fragment() {
             }
         }
         return test
-    }
+    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()
