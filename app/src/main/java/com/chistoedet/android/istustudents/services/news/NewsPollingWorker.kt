@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.chistoedet.android.istustudents.Config
-import com.chistoedet.android.istustudents.di.DaggerActivityComponent
 import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
 import com.chistoedet.android.istustudents.notification.NotificationProvider
 import com.vk.api.sdk.VK
@@ -13,19 +12,18 @@ import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.wall.WallService
 import com.vk.sdk.api.wall.dto.WallGetResponse
 import com.vk.sdk.api.wall.dto.WallWallpostFull
-import javax.inject.Inject
 
 
 class NewsPollingWorker(var context: Context, workerParameters: WorkerParameters)
     : Worker(context, workerParameters) {
 
-    private var component = DaggerActivityComponent.factory().create(context)
+   // private var component = DaggerActivityComponent.factory().create(context)
 
-    @Inject
-    lateinit var sharedRepository : SharedRepositoryImpl
+
+    var sharedRepository : SharedRepositoryImpl = SharedRepositoryImpl(context)
 
     init {
-        component.inject(this)
+       // component.inject(this)
     }
 
     override fun doWork(): Result {

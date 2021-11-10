@@ -5,12 +5,10 @@ import android.content.SharedPreferences
 import com.chistoedet.android.istustudents.UserInformation
 import com.chistoedet.android.istustudents.network.response.login.LoginResponse
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
-import javax.inject.Inject
-import javax.inject.Named
 
 //@PerActivity
-class SharedRepositoryImpl @Inject constructor(
-    @Named ("context") var context: Context) : SharedRepository {
+class SharedRepositoryImpl constructor(
+     var context: Context) : SharedRepository {
 
     val SHAREDNAME = "ISTU_SHARED_PREFERENCES"
 

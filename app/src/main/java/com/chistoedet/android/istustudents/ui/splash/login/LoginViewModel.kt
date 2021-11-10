@@ -5,15 +5,13 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.chistoedet.android.core.remote.istu.ISTUProvider
-import com.chistoedet.android.istustudents.di.ActivityComponent
+import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
 import com.chistoedet.android.istustudents.di.App
-import com.chistoedet.android.istustudents.di.DaggerActivityComponent
 import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
 import com.chistoedet.android.istustudents.network.requests.LoginRequest
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
 sealed class LoginState {
@@ -31,18 +29,17 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
         postValue(LoginState.LoggingState())
     }
 
-    @Inject
-    lateinit var api : ISTUProvider
 
-    @Inject
-    lateinit var shared: SharedRepositoryImpl
+    var api : ISTUProvider = ISTUProviderImpl()
+
+    var shared: SharedRepositoryImpl = SharedRepositoryImpl(application)
 
     private var app = (application as App)
 
-    var component : ActivityComponent = DaggerActivityComponent.factory().create(application)
+   // var component : ActivityComponent = DaggerActivityComponent.factory().create(application)
 
     init {
-        component.inject(this)
+     //   component.inject(this)
     }
 
     fun getLastLogin() : String? {
@@ -65,7 +62,7 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
                             state.postValue(LoginState.ErrorState("Ошибка подключения"))
                         } else {
                             shared.setToken(it.body()!!)
-                            shared.saveLastLogin(loginBody.email)
+                            shared.saveLastLogin(loginBody.email!!)
                             app.setUser(user).let {
                                 state.postValue(LoginState.LoginSuccessful())
                             }
@@ -85,7 +82,7 @@ class LoginViewModel constructor(application: Application): AndroidViewModel(app
 
     private suspend fun getUserFromToken(token: String) : UserResponse? {
 
-        token.apply { it ->
+        token.let { it ->
             api.fetchUser(it).let {
                 return if (it.code() == 200 && it.body()?.getId() != null) it.body()
                 else null

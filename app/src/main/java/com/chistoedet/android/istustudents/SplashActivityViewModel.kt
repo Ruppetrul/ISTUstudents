@@ -4,14 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.chistoedet.android.core.remote.istu.ISTUProvider
-import com.chistoedet.android.istustudents.di.ActivityComponent
+import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
 import com.chistoedet.android.istustudents.di.App
-import com.chistoedet.android.istustudents.di.DaggerActivityComponent
 import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 sealed class TokenState {
     class CheckingState: TokenState()
@@ -22,22 +20,22 @@ sealed class TokenState {
 
 class SplashActivityViewModel(application: Application) : AndroidViewModel(application) {
 
-    @Inject
-    lateinit var api : ISTUProvider
 
-    @Inject
-    lateinit var shared: SharedRepositoryImpl
+    var api : ISTUProvider = ISTUProviderImpl()
+
+
+    var shared: SharedRepositoryImpl = SharedRepositoryImpl(application)
 
     private var app = (application as App)
 
-    var component : ActivityComponent = DaggerActivityComponent.factory().create(application)
+    //var component : ActivityComponent = DaggerActivityComponent.factory().create(application)
 
     val state = MutableLiveData<TokenState>().apply {
         postValue(TokenState.CheckingState())
     }
 
     init {
-        component.inject(this)
+       // component.inject(this)
         checkTokenRelevance()
     }
 

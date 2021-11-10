@@ -5,14 +5,12 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.chistoedet.android.core.remote.istu.ISTUProvider
-import com.chistoedet.android.istustudents.di.ActivityComponent
-import com.chistoedet.android.istustudents.di.DaggerActivityComponent
+import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
 import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
 import com.chistoedet.android.istustudents.network.response.chats.Staffs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 private val TAG = ContactListViewModel::class.simpleName
 
@@ -32,16 +30,14 @@ class ContactListViewModel(application: Application) : AndroidViewModel(applicat
         postValue(ChatListState.LoadingState())
     }
 
-    @Inject
-    lateinit var api : ISTUProvider
+    var api : ISTUProvider = ISTUProviderImpl()
 
-    @Inject
-    lateinit var shared: SharedRepositoryImpl
+    var shared: SharedRepositoryImpl = SharedRepositoryImpl(application)
 
-    var component : ActivityComponent = DaggerActivityComponent.factory().create(application)
+   // var component : ActivityComponent = DaggerActivityComponent.factory().create(application)
 
     init {
-        component.inject(this)
+      //  component.inject(this)
         getChatList()
     }
 
