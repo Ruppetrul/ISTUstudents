@@ -9,6 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.chistoedet.android.istustudents.databinding.SpashActivityBinding
 import com.chistoedet.android.istustudents.ui.splash.login.LoginFragment
+import com.vk.sdk.util.VKUtil
+
+
+
 
 class SplashActivity : AppCompatActivity(), LoginFragment.Callbacks {
 
@@ -24,6 +28,10 @@ class SplashActivity : AppCompatActivity(), LoginFragment.Callbacks {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get(SplashActivityViewModel::class.java)
+
+        // config api
+        val fingerprints = VKUtil.getCertificateFingerprint(this, this.packageName)
+        Log.d("FINGERPRINT", "onCreate: ${fingerprints[0]}")
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, LoginFragment.newInstance())

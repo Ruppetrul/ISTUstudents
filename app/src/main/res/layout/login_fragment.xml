@@ -30,6 +30,7 @@
             android:inputType="textEmailAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="19071403@edu.istu.ru"
             android:minWidth="250dp"
             android:minHeight="48dp" />
 
@@ -37,6 +38,7 @@
         android:id="@+id/password_et"
         android:inputType="textPassword"
         android:layout_width="wrap_content"
+        android:text="16.01.1999"
         android:layout_height="wrap_content"
         android:minWidth="250dp"        />
 

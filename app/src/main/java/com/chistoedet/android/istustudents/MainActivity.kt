@@ -4,24 +4,22 @@ package com.chistoedet.android.istustudents
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import androidx.work.*
 import com.chistoedet.android.istustudents.databinding.ActivityMainBinding
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
@@ -40,7 +38,7 @@ import java.util.*
 
 
 private val TAG = MainActivity::class.simpleName
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -54,6 +52,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var graph: NavGraph? = null
 
     var drawerLayout: DrawerLayout ?= null
+
+    interface Callbacks {
+        fun onNewsUpdated()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout = binding.drawerLayout
 
         val navView: NavigationView = binding.navView
-        navView.setNavigationItemSelectedListener(this)
+        //navView.setNavigationItemSelectedListener(this)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
@@ -94,6 +96,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        navView.setNavigationItemSelectedListener(NavigationView.OnNavigationItemSelectedListener() {
+
+            if (it.itemId == R.id.nav_css) {
+                Log.d(TAG, "onClick: ${it.title}")
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Config.CSS_LINK))
+                startActivity(browserIntent)
+            }
+
+            NavigationUI.onNavDestinationSelected(it,navController)
+            drawerLayout?.apply {
+                if (!this.isDrawerOpen(GravityCompat.END)) {
+                    this.closeDrawer(GravityCompat.START)
+                }
+            }
+            true
+
+        })
 
         binding.btnSingOut.setOnClickListener {
             viewModel.logout().let {
@@ -171,7 +191,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object: VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-                Log.d("TAG", "onLogin: ")
+                Log.d(TAG, "onLogin")
+
             }
 
             override fun onLoginFailed(authException: VKAuthException) {
@@ -189,9 +210,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        TODO("Not yet implemented")
-    }
+
 
 }
 

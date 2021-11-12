@@ -18,6 +18,11 @@
             android:id="@+id/nav_messenger"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/messenger_section" />
+        <item
+            android:id="@+id/nav_css"
+            android:icon="@android:drawable/sym_action_email"
+            android:title="@string/css_section"
+        />
 
     </group>
 </menu>

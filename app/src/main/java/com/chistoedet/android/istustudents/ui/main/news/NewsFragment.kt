@@ -1,6 +1,7 @@
 package com.chistoedet.android.istustudents.ui.main.news
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chistoedet.android.istustudents.MainActivity
 import com.chistoedet.android.istustudents.databinding.NewsFragmentBinding
 import com.vk.api.sdk.VK
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +18,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class NewsFragment : Fragment() {
+class NewsFragment : Fragment(), MainActivity.Callbacks {
     private val TAG = NewsFragment::class.simpleName
 
     private var _binding: NewsFragmentBinding? = null
@@ -33,6 +35,8 @@ class NewsFragment : Fragment() {
 
     private lateinit var stateObserver : Observer<VKState>
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,15 +52,7 @@ class NewsFragment : Fragment() {
         contactListAdapter = NewsListAdapter()
         binding.newsList.adapter = contactListAdapter
 
-        VK.isLoggedIn().apply {
-            if (this) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.news.collectLatest {
-                        contactListAdapter.submitData(it)
-                    }
-                }
-            }
-        }
+
 
         stateObserver = Observer {
             when(it) {
@@ -76,6 +72,19 @@ class NewsFragment : Fragment() {
         return binding.root
     }
 
+    private fun updateNews() {
+        Log.d(TAG, "updateNews: ${VK.isLoggedIn()}")
+        VK.isLoggedIn().apply {
+            if (this) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    viewModel.news.collectLatest {
+                        contactListAdapter.submitData(it)
+                    }
+                }
+            }
+        }
+    }
+
     private fun showError() {
         binding.newsList.visibility = View.INVISIBLE
         binding.vkErrorText.visibility = View.VISIBLE
@@ -90,6 +99,7 @@ class NewsFragment : Fragment() {
         super.onResume()
         if (VK.isLoggedIn()) viewModel.state.postValue(VKState.LoginState())
         viewModel.state.observe(viewLifecycleOwner, stateObserver)
+        updateNews()
     }
 
     override fun onStop() {
@@ -101,6 +111,11 @@ class NewsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         // TODO: Use the ViewModel
+    }
+
+    override fun onNewsUpdated() {
+        Log.d(TAG, "onNewsUpdated")
+
     }
 
 }
