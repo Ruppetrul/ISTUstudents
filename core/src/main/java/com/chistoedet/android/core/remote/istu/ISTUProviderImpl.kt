@@ -36,12 +36,16 @@ class ISTUProviderImpl : ISTUProvider {
         return RetrofitFactory.getApiService().testStaff(token)
     }
 
-    override suspend fun fetchStudent(token: String): Response<ResponseBody> {
-        return RetrofitFactory.getApiService().testStudent(token)
+    override suspend fun fetchStudent(token: String, id: Int): Response<ResponseBody> {
+        return RetrofitFactory.getApiService().testStudent(token, id)
     }
 
-    override suspend fun fetchSession(token: String): Response<ResponseBody> {
-        return RetrofitFactory.getApiService().testSession(token)
+    override suspend fun fetchSession(token: String, userId: Int): Response<ResponseBody> {
+        return RetrofitFactory.getApiService().testSession(token, userId)
+    }
+
+    override suspend fun sendMessage(token: String, id: Int, message: String): Response<ResponseBody> {
+        return RetrofitFactory.getApiService().testSendMessage(token, id, message)
     }
 
 }

@@ -9,6 +9,7 @@ import com.chistoedet.android.core.remote.istu.ISTUProvider
 import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
 import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
 import com.chistoedet.android.istustudents.network.response.chats.Message
+import com.chistoedet.android.istustudents.network.response.chats.Staffs
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -41,7 +42,9 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
     init {
        // component.inject(this)
         token = shared.getToken()!!
+
     }
+
 
     fun updateChatHistory(chat: Int) {
         viewModelScope.launch {
@@ -59,7 +62,6 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                                 }
                             }
 
-
                         } else -> {
                         state.postValue(ChatState.ErrorState("Произошла ошибка ${it.code()}"))
                     }
@@ -71,6 +73,12 @@ class ChatViewModel(application: Application) : AndroidViewModel(application) {
                 Log.d(TAG, "updateChatHistory: IORuntimeException")
             }
            // Log.d(TAG, "updateChatHistory: $chatHistory")
+        }
+    }
+
+    fun sendMessage(user: Staffs, message: String) {
+        viewModelScope.launch {
+        user.staffId?.let { api.sendMessage(token, it, message) }
         }
     }
 }

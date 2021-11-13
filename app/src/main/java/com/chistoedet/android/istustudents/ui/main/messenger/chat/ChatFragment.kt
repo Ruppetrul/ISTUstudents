@@ -13,14 +13,12 @@ import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.databinding.ChatFragmentBinding
 import com.chistoedet.android.istustudents.databinding.ItemMessageReceiveBinding
 import com.chistoedet.android.istustudents.databinding.ItemMessageSendBinding
-
 import com.chistoedet.android.istustudents.network.response.chats.From
 import com.chistoedet.android.istustudents.network.response.chats.Message
 import com.chistoedet.android.istustudents.network.response.chats.Staffs
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.databinding.BindableItem
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -43,6 +41,8 @@ class ChatFragment() : Fragment() {
     private var user : Staffs ?= null
     private val messageAdapter = GroupAdapter<GroupieViewHolder>()
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,12 +62,17 @@ class ChatFragment() : Fragment() {
 
         viewModel.state.observe(viewLifecycleOwner, stateObserver)
 
+        binding.sendButton.setOnClickListener {
+            user?.let { it1 -> viewModel.sendMessage(it1, binding.editText.text.toString()) }
+        }
+
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume")
+
 
     }
 
@@ -169,7 +174,7 @@ class ChatFragment() : Fragment() {
         }
 
         binding.recyclerView.visibility = View.INVISIBLE
-        binding.button.visibility = View.INVISIBLE
+        binding.sendButton.visibility = View.INVISIBLE
         binding.editText.visibility = View.INVISIBLE
         binding.emptyChatHistoryMessageText.visibility = View.INVISIBLE
     }
@@ -177,7 +182,7 @@ class ChatFragment() : Fragment() {
     private fun showChat() {
         Log.i(TAG,"showChat")
         binding.recyclerView.visibility = View.VISIBLE
-        binding.button.visibility = View.VISIBLE
+        binding.sendButton.visibility = View.VISIBLE
         binding.editText.visibility = View.VISIBLE
 
         binding.errorMessageText.visibility = View.INVISIBLE
@@ -188,7 +193,7 @@ class ChatFragment() : Fragment() {
         Log.i(TAG,"showLoading")
 
         binding.recyclerView.visibility = View.INVISIBLE
-        binding.button.visibility = View.INVISIBLE
+        binding.sendButton.visibility = View.INVISIBLE
         binding.editText.visibility = View.INVISIBLE
         binding.emptyChatHistoryMessageText.visibility = View.INVISIBLE
 
@@ -198,7 +203,7 @@ class ChatFragment() : Fragment() {
     private fun showEmptyChat() {
         Log.i(TAG,"showEmptyChat")
         binding.recyclerView.visibility = View.VISIBLE
-        binding.button.visibility = View.VISIBLE
+        binding.sendButton.visibility = View.VISIBLE
         binding.editText.visibility = View.VISIBLE
         binding.emptyChatHistoryMessageText.visibility = View.VISIBLE
 

@@ -3,7 +3,8 @@ package com.chistoedet.android.istustudents
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.chistoedet.android.core.remote.istu.ISTUProvider
+import androidx.lifecycle.viewModelScope
+import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
@@ -16,7 +17,7 @@ private val TAG = MainActivityViewModel::class.simpleName
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
 
 
-    lateinit var api : ISTUProvider
+    var api : ISTUProviderImpl = ISTUProviderImpl()
 
     var shared: SharedRepositoryImpl = SharedRepositoryImpl(application)
 
@@ -26,12 +27,26 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     var userLiveData = MutableLiveData<UserResponse>()
 
-    private val token : String?
+    private val token : String? = shared.getToken()
 
     init {
     //    component.inject(this)
-        token = shared.getToken()
+
+        viewModelScope.launch {
+            app.getUser()?.let {
+                if (token != null) {
+                    app.getUser()!!.getId()?.let { it1 ->
+                      //  api.fetchSession(token, it1)
+                      //  api.fetchStudent(token, it1)
+                    }
+                }
+            }
+        }
+
     }
+
+
+
 
     fun logout() {
         CoroutineScope(Dispatchers.Main).launch {

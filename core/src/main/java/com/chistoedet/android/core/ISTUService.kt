@@ -29,12 +29,15 @@ interface ISTUService {
 
     @GET("session")
     suspend fun testSession(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Header("student_id") student_id: Int
     ): Response<ResponseBody>
 
     @GET("student")
     suspend fun testStudent(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Header("student") id: Int,
+       // @Body student_id: Int
     ): Response<ResponseBody>
 
     @GET("staff")
@@ -52,5 +55,12 @@ interface ISTUService {
         @Header("Authorization") token: String,
         @Path("chat") chat: Int
     ): Response<ChatsChatResponse>
+
+    @POST("chats/{chat}")
+    suspend fun testSendMessage(
+        @Header("Authorization") token: String,
+        @Path("chat") chat: Int,
+        @Body message: String
+    ): Response<ResponseBody>
 
 }

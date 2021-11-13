@@ -18,7 +18,7 @@ import com.vk.api.sdk.auth.VKScope
 private val TAG = StudentOfficeFragment::class.simpleName
 class StudentOfficeFragment : Fragment() {
 
-    private lateinit var studentOfficeViewModel: StudentOfficeViewModel
+    private lateinit var viewModel: StudentOfficeViewModel
     private var _binding: FragmentStudentBinding?= null
 
     private val binding get() = _binding!!
@@ -34,7 +34,7 @@ class StudentOfficeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         app = (activity?.application as App)
-        studentOfficeViewModel =
+        viewModel =
             ViewModelProvider(this).get(StudentOfficeViewModel::class.java)
 
         _binding = FragmentStudentBinding.inflate(inflater, container, false)
@@ -43,17 +43,16 @@ class StudentOfficeFragment : Fragment() {
         binding.personalData.setOnClickListener {
 
             findNavController().navigate(R.id.action_nav_student_to_nav_profile)
+
         }
 
         binding.formStatement.setOnClickListener {
-            studentOfficeViewModel.formStatement()
+            viewModel.formStatement()
         }
 
-
-
-        binding.vkLogin.setOnClickListener {
+       /* binding.vkLogin.setOnClickListener {
             activity?.let { it1 -> VK.login(it1, arrayListOf(VKScope.WALL, VKScope.FRIENDS)) }
-        }
+        }*/
 
         return root
     }
@@ -64,11 +63,29 @@ class StudentOfficeFragment : Fragment() {
         Log.d(TAG, "onResume: ${user?.getFio()}")
         binding.user = user
 
+        updateVKButton()
+    }
+
+    private fun updateVKButton(){
         binding.vkLogin.apply {
             VK.isLoggedIn().let {
-                this.isEnabled = !it
+                if (it) {
+                    this.text = "Выйти из ВК"
+                    this.setOnClickListener {
+                        VK.logout().let {
+                            updateVKButton()
+                        }
+                    }
+                } else {
+                    this.text = "Войти в ВК"
+                    this.setOnClickListener {
+                         activity?.let { it1 -> VK.login(it1, arrayListOf(VKScope.WALL, VKScope.FRIENDS))
+                    }
+                }
+            //this.isEnabled = !it
             }
         }
+    }
     }
 
     override fun onDestroyView() {

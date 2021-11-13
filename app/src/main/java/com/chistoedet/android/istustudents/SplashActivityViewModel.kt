@@ -23,7 +23,6 @@ class SplashActivityViewModel(application: Application) : AndroidViewModel(appli
 
     var api : ISTUProvider = ISTUProviderImpl()
 
-
     var shared: SharedRepositoryImpl = SharedRepositoryImpl(application)
 
     private var app = (application as App)
@@ -60,10 +59,9 @@ class SplashActivityViewModel(application: Application) : AndroidViewModel(appli
                     val user = getUserFromToken(token)
                     if (user?.getId() != null) {
                         app.setUser(user)
+
                         state.postValue(TokenState.IsRelevance())
-                        /*callbacks?.apply {
-                            this.onMain()
-                        }*/
+
                     } else
                     {
                         state.postValue(TokenState.IsNotRelevance())

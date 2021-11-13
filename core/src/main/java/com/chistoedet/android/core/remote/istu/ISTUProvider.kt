@@ -23,8 +23,12 @@ interface ISTUProvider {
 
     suspend fun fetchStaff(token: String) : Response<ResponseBody>
 
-    suspend fun fetchStudent(token: String) : Response<ResponseBody>
+    suspend fun fetchStudent(token: String, id: Int) : Response<ResponseBody>
 
-    suspend fun fetchSession(token: String) : Response<ResponseBody>
+    suspend fun fetchSession(token: String, id: Int) : Response<ResponseBody>
+
+    suspend fun sendMessage(token: String, id: Int, message: String) : Response<ResponseBody>
+
+
 
 }
