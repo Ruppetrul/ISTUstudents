@@ -104,6 +104,10 @@ class MainActivity : AppCompatActivity() {
                 val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Config.CSS_LINK))
                 startActivity(browserIntent)
             }
+            if (it.itemId == R.id.nav_portfolio) {
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(Config.PORTFOLIO_LINK))
+                startActivity(browserIntent)
+            }
 
             NavigationUI.onNavDestinationSelected(it,navController)
             drawerLayout?.apply {
