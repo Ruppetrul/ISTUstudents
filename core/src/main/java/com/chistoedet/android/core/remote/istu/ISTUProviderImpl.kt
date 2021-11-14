@@ -48,4 +48,8 @@ class ISTUProviderImpl : ISTUProvider {
         return RetrofitFactory.getApiService().testSendMessage(token, id, message)
     }
 
+    override suspend fun logout(token: String): Response<LogoutResponse> {
+        return RetrofitFactory.getApiService().testLogout(token)
+    }
+
 }

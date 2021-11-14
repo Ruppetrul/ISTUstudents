@@ -22,6 +22,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import androidx.work.*
 import com.chistoedet.android.istustudents.databinding.ActivityMainBinding
+import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.network.response.user.UserResponse
 import com.google.android.material.navigation.NavigationView
 import com.vk.api.sdk.VK
@@ -119,13 +120,19 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        binding.btnSingOut.setOnClickListener {
-            viewModel.logout().let {
-                VK.isLoggedIn().let {
-                    VK.logout()
-                }
-                finish()
+        var header = navView.getHeaderView(0)
+        header.apply {
+            var name = findViewById<TextView>(R.id.drawer_header_name)
+            var info = findViewById<TextView>(R.id.drawer_header_info)
+            (application as App).apply {
+                name.text = getUser()?.getFio()
+                info.text = getUser()?.getEmail()
             }
+        }
+
+        binding.btnSingOut.setOnClickListener {
+            viewModel.logout()
+            finish()
         }
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
@@ -159,14 +166,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showAlertDialog() {
-        val webaddress = SpannableString(
+        val alert = SpannableString(
             "Для полноценной работы приложения необходимо авторизоваться в ВКонтакте. Иначе будут недоступны некоторые функции"
         )
-        //Linkify.addLinks(webaddress, Linkify.ALL)
 
         val aboutDialog: AlertDialog = AlertDialog.Builder(
             this
-        ).setMessage(webaddress)
+        ).setMessage(alert)
             .setPositiveButton("Войти", DialogInterface.OnClickListener { dialog, which ->
                 VK.login(this@MainActivity, arrayListOf(VKScope.WALL, VKScope.FRIENDS))
             })
@@ -175,9 +181,6 @@ class MainActivity : AppCompatActivity() {
             }).create()
 
         aboutDialog.show()
-
-        /*(aboutDialog.findViewById(android.R.id.message) as TextView).movementMethod =
-            LinkMovementMethod.getInstance()*/
     }
 
     override fun onStop() {

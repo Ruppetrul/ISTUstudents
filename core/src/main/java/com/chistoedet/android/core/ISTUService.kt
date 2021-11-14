@@ -36,7 +36,7 @@ interface ISTUService {
     @GET("student")
     suspend fun testStudent(
         @Header("Authorization") token: String,
-        @Header("student") id: Int,
+        @Header("student_id") id: Int,
        // @Body student_id: Int
     ): Response<ResponseBody>
 

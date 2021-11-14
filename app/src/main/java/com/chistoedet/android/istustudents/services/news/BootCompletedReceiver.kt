@@ -19,7 +19,7 @@ class BootCompletedReceiver : BroadcastReceiver() {
             .build()
 
         val periodicRequest =
-            PeriodicWorkRequest.Builder(NewsPollingWorker::class.java, 15, TimeUnit.MINUTES)
+            PeriodicWorkRequest.Builder(NewsPollingWorker::class.java, 5, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build()
 

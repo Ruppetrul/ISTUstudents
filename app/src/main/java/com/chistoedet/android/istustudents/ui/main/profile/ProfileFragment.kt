@@ -46,12 +46,13 @@ class ProfileFragment : Fragment() {
         Log.d(TAG, "onCreateView")
         _binding = ProfileFragmentBinding.inflate(layoutInflater, container, false)
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+
         if (savedInstanceState == null) {
-            /*viewModel.updateInfo().let {
-                binding.passportEt.setText(it.passport)
-                binding.SNILSEt.setText(it.snils)
-                binding.INNEt.setText(it.inn)
-            }*/
+            viewModel.getInformation().let {
+                binding.passportEt.setText(it?.passport)
+                binding.SNILSEt.setText(it?.snils)
+                binding.INNEt.setText(it?.inn)
+            }
         }
 
         binding.profileLinearLayout.visibility = View.VISIBLE
@@ -61,6 +62,7 @@ class ProfileFragment : Fragment() {
             saveInformation.inn = binding.INNEt.text.toString()
             saveInformation.snils = binding.SNILSEt.text.toString()
             checkAndSaveInfo(saveInformation)
+            findNavController().navigate(R.id.action_nav_profile_to_nav_student)
         }
 
         val format: FormatWatcher = MaskFormatWatcher(
@@ -73,14 +75,11 @@ class ProfileFragment : Fragment() {
         )
         formatNumber.installOn(binding.numberEt)
 
-
-
         return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             val saveInformation = UserInformation()

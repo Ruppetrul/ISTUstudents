@@ -11,14 +11,12 @@ import com.vk.api.sdk.VKApiCallback
 import com.vk.dto.common.id.UserId
 import com.vk.sdk.api.wall.WallService
 import com.vk.sdk.api.wall.dto.WallGetResponse
-import com.vk.sdk.api.wall.dto.WallWallpostFull
 
 
 class NewsPollingWorker(var context: Context, workerParameters: WorkerParameters)
     : Worker(context, workerParameters) {
 
    // private var component = DaggerActivityComponent.factory().create(context)
-
 
     var sharedRepository : SharedRepositoryImpl = SharedRepositoryImpl(context)
 
@@ -31,7 +29,6 @@ class NewsPollingWorker(var context: Context, workerParameters: WorkerParameters
         if (
 
         VK.isLoggedIn()) {
-
             VK.execute(
                 WallService().wallGet(
                     UserId(Config.VK_PUBLIC_ID),
@@ -55,7 +52,7 @@ class NewsPollingWorker(var context: Context, workerParameters: WorkerParameters
                             }
                         // TODO for tests
                         else {
-                            NotificationProvider.showNotificationPost(applicationContext, WallWallpostFull())
+                            NotificationProvider.showNotificationPost(applicationContext, null)
                         }
 
                         sharedRepository.setNewsHistorySize(result.count)
@@ -65,6 +62,9 @@ class NewsPollingWorker(var context: Context, workerParameters: WorkerParameters
                     }
                 }
             )}
+        else {
+            NotificationProvider.showNotificationPost(applicationContext, null)
+        }
 
 
         return Result.success()

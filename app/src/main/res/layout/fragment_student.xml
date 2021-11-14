@@ -81,5 +81,17 @@
         android:text="Войти в ВК"
         android:id="@+id/vkLogin"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="тест запроса студент"
+        android:id="@+id/vkStudentTest"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="тест запроса сессия"
+        android:id="@+id/vkSessionTest"/>
+
 </LinearLayout>
 </layout>

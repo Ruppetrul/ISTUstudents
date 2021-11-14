@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
 import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.databinding.FragmentStudentBinding
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.ui.splash.login.LoginFragment
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 private val TAG = StudentOfficeFragment::class.simpleName
 class StudentOfficeFragment : Fragment() {
@@ -23,6 +26,7 @@ class StudentOfficeFragment : Fragment() {
 
     private val binding get() = _binding!!
     private lateinit var app : App
+    var api : ISTUProviderImpl = ISTUProviderImpl()
 
     companion object {
         fun newInstance() = LoginFragment()
@@ -48,6 +52,27 @@ class StudentOfficeFragment : Fragment() {
 
         binding.formStatement.setOnClickListener {
             viewModel.formStatement()
+        }
+
+        val user = app.getUser()
+        val id = user!!.getId()
+        binding.vkStudentTest.setOnClickListener {
+            GlobalScope.launch{
+                Log.d(TAG, "Вызываю student с student_id $id")
+                Log.d(TAG, "Вызываю student с token ${app.getToken()}")
+                var a = app.getToken()?.let { it1 ->
+                    if (id != null) {
+                        api.fetchStudent(it1, id)
+                    }
+                }
+            }
+        }
+
+        binding.vkSessionTest.setOnClickListener {
+            GlobalScope.launch{
+                Log.d(TAG, "Вызываю session с student_id ${user?.getId()}")
+                var b = app.getToken()?.let { it1 -> api.fetchSession(it1, user!!.getId()!!+1) }
+            }
         }
 
        /* binding.vkLogin.setOnClickListener {

@@ -29,6 +29,6 @@ interface ISTUProvider {
 
     suspend fun sendMessage(token: String, id: Int, message: String) : Response<ResponseBody>
 
-
+    suspend fun logout(token: String) : Response<LogoutResponse>
 
 }
