@@ -30,15 +30,11 @@
     </style>
 
 
-    <style name="PersonalCardView" parent="CardView">
+    <style name="GrayCardView" parent="CardView">
         <item name="cardBackgroundColor">@color/istu_gray</item>
     </style>
 
-    <style name="NewsCardView" parent="CardView">
-        <item name="cardBackgroundColor">@color/istu_gray</item>
-    </style>
-
-    <style name="DateCardView" parent="CardView">
+    <style name="GrayDarkCardView" parent="CardView">
         <item name="cardBackgroundColor">@color/istu_gray_dark</item>
     </style>
 

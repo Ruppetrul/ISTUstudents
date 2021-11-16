@@ -23,7 +23,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        style="@style/NewsCardView"
+        style="@style/GrayCardView"
         app:cardCornerRadius="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="8dp"
@@ -45,7 +45,7 @@
 
 
     <androidx.cardview.widget.CardView
-        style="@style/DateCardView"
+        style="@style/GrayDarkCardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="16dp"

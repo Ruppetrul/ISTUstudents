@@ -55,7 +55,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        binding.profileLinearLayout.visibility = View.VISIBLE
+        binding.profileCard.visibility = View.VISIBLE
         binding.saveBtn.setOnClickListener {
             val saveInformation = UserInformation()
             saveInformation.passport = binding.passportEt.text.toString()

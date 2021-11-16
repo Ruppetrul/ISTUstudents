@@ -12,6 +12,7 @@
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/button_main_shape_selected.xml" value="0.1" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/dg_receive_message.xml" value="0.1" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/drawer_item_color.xml" value="0.1" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/edit_text_style.xml" value="0.1" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/ic_baseline_accessibility_new_24.xml" value="0.1" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.16944444444444445" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/drawable/side_nav_bar.xml" value="0.287962962962963" />
@@ -42,7 +43,7 @@
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/news_fragment.xml" value="0.23055555555555557" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/news_item.xml" value="0.25" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/portfolio_fragment.xml" value="0.11574074074074074" />
-        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/profile_fragment.xml" value="0.33" />
+        <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/profile_fragment.xml" value="0.20462046204620463" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/spash_activity.xml" value="0.1" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/layout/students_office_fragment.xml" value="0.11574074074074074" />
         <entry key="..\:/Users/MyPC/AndroidStudioProjects/ISTUstudents/app/src/main/res/menu/activity_main_drawer.xml" value="0.1" />
