@@ -21,8 +21,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         android:background="@color/istu_gray"
-        app:itemIconTint="@drawable/drawer_item_color"
-        app:itemTextColor="@drawable/drawer_item_color"
+        app:itemIconTint="@drawable/drawer_item_color_img"
+        app:itemTextColor="@drawable/drawer_item_color_text"
+        app:itemBackground="@drawable/nav_item_drawable"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/main_activity_drawer" >
 

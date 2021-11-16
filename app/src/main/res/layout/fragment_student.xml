@@ -106,6 +106,7 @@
                 android:layout_width="60sp"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                android:background="@null"
                 android:src="@drawable/vk_logo"
                 android:layout_gravity="center">
             </ImageButton>

@@ -7,11 +7,6 @@
 
     <include app:graph="@navigation/student_office_navigation"/>
 
-    <fragment
-        android:id="@+id/nav_portfolio"
-        android:name="com.chistoedet.android.istustudents.ui.main.portfolio.PortfolioFragment"
-        android:label="@string/portfolio_section"
-        tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_news"

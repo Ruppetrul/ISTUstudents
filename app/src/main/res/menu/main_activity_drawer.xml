@@ -8,15 +8,15 @@
             android:title="@string/messenger_section" />-->
         <item
             android:id="@+id/nav_student_office"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_baseline_person_24"
             android:title="@string/personal_data" />
         <item
             android:id="@+id/nav_portfolio"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_baseline_portfolio_24"
             android:title="@string/portfolio_section" />
         <item
             android:id="@+id/nav_messenger"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_baseline_chat_24"
             android:title="@string/messenger_section" />
         <item
             android:id="@+id/nav_css"
