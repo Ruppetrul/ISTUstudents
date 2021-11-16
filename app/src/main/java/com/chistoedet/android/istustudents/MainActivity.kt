@@ -176,7 +176,8 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("Войти", DialogInterface.OnClickListener { dialog, which ->
                 VK.login(this@MainActivity, arrayListOf(VKScope.WALL, VKScope.FRIENDS))
             })
-            .setNegativeButton("Я козёл", DialogInterface.OnClickListener { dialog, which ->
+
+            .setNegativeButton("Отмена", DialogInterface.OnClickListener { dialog, which ->
 
             }).create()
 

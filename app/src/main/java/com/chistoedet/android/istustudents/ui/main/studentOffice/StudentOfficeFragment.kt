@@ -98,7 +98,6 @@ class StudentOfficeFragment : Fragment() {
 
                             NewsPollingWorker.showResult(result, sharedRepository, requireContext())
 
-
                         }
 
                         override fun fail(error: Exception) {
