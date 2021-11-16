@@ -16,6 +16,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/info_layout"
+            style="@style/PersonalCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
