@@ -1,6 +1,7 @@
 package com.chistoedet.android.istustudents.services.news
 
 import android.content.Context
+import android.widget.Toast
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.chistoedet.android.istustudents.Config
@@ -39,23 +40,8 @@ class NewsPollingWorker(var context: Context, workerParameters: WorkerParameters
                     null), object: VKApiCallback<WallGetResponse> {
                     override fun success(result: WallGetResponse) {
 
-                       if (sharedRepository.getNewsHistorySize() == 0) {
-                           sharedRepository.setNewsHistorySize(result.count)
-                        }
+                        showResult(result, sharedRepository, applicationContext)
 
-                        if (result.count > sharedRepository.getNewsHistorySize()) {
-                            val delta = result.count - sharedRepository.getNewsHistorySize()
-                            for (i in 1..delta) {
-                                val post = result.items[i]
-                                    NotificationProvider.showNotificationPost(applicationContext, post)
-                                }
-                            }
-                        // TODO for tests
-                        else {
-                            NotificationProvider.showNotificationPost(applicationContext, null)
-                        }
-
-                        sharedRepository.setNewsHistorySize(result.count)
                     }
                     override fun fail(error: Exception) {
 
@@ -68,6 +54,33 @@ class NewsPollingWorker(var context: Context, workerParameters: WorkerParameters
 
 
         return Result.success()
+    }
+
+    companion object {
+        fun showResult(result: WallGetResponse, sharedRepository: SharedRepositoryImpl, context: Context) {
+            val sharedSize = sharedRepository.getNewsHistorySize()
+            if (sharedSize == 0) {
+                sharedRepository.setNewsHistorySize(result.count)
+                NotificationProvider.showNotificationPost(context, result.items.last())
+            }
+
+            if (result.count > sharedRepository.getNewsHistorySize()) {
+                val delta = result.count - sharedRepository.getNewsHistorySize()
+                for (i in 1..delta) {
+                    val post = result.items[i]
+                    NotificationProvider.showNotificationPost(context, post)
+                }
+                sharedRepository.setNewsHistorySize(result.count)
+
+            }
+
+            // TODO for tests
+            else {
+                Toast.makeText(context,"Новых новостей не найдено", Toast.LENGTH_LONG).show()
+            }
+
+            sharedRepository.setNewsHistorySize(result.count)
+        }
     }
 
 }

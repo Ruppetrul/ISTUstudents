@@ -9,12 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.chistoedet.android.core.remote.istu.ISTUProviderImpl
+import com.chistoedet.android.istustudents.Config
 import com.chistoedet.android.istustudents.R
 import com.chistoedet.android.istustudents.databinding.FragmentStudentBinding
 import com.chistoedet.android.istustudents.di.App
+import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
+import com.chistoedet.android.istustudents.services.news.NewsPollingWorker
 import com.chistoedet.android.istustudents.ui.splash.login.LoginFragment
 import com.vk.api.sdk.VK
+import com.vk.api.sdk.VKApiCallback
 import com.vk.api.sdk.auth.VKScope
+import com.vk.dto.common.id.UserId
+import com.vk.sdk.api.wall.WallService
+import com.vk.sdk.api.wall.dto.WallGetResponse
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -27,6 +34,7 @@ class StudentOfficeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var app : App
     var api : ISTUProviderImpl = ISTUProviderImpl()
+    lateinit var sharedRepository : SharedRepositoryImpl
 
     companion object {
         fun newInstance() = LoginFragment()
@@ -38,6 +46,7 @@ class StudentOfficeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         app = (activity?.application as App)
+        sharedRepository = SharedRepositoryImpl(requireContext())
         viewModel =
             ViewModelProvider(this).get(StudentOfficeViewModel::class.java)
 
@@ -74,6 +83,33 @@ class StudentOfficeFragment : Fragment() {
                 var b = app.getToken()?.let { it1 -> api.fetchSession(it1, user!!.getId()!!+1) }
             }
         }
+
+        binding.vkNewsTest.setOnClickListener {
+            if (VK.isLoggedIn()) {
+                VK.execute(
+                    WallService().wallGet(
+                        UserId(Config.VK_PUBLIC_ID),
+                        null,
+                        null,
+                        5,
+                        null,
+                        null), object: VKApiCallback<WallGetResponse> {
+                        override fun success(result: WallGetResponse) {
+
+                            NewsPollingWorker.showResult(result, sharedRepository, requireContext())
+
+
+                        }
+
+                        override fun fail(error: Exception) {
+                            TODO("Not yet implemented")
+                        }
+                    }
+                )
+            }
+        }
+
+
 
        /* binding.vkLogin.setOnClickListener {
             activity?.let { it1 -> VK.login(it1, arrayListOf(VKScope.WALL, VKScope.FRIENDS)) }

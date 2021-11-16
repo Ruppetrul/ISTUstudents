@@ -35,8 +35,6 @@ class NewsFragment : Fragment(), MainActivity.Callbacks {
 
     private lateinit var stateObserver : Observer<VKState>
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,8 +49,6 @@ class NewsFragment : Fragment(), MainActivity.Callbacks {
 
         contactListAdapter = NewsListAdapter()
         binding.newsList.adapter = contactListAdapter
-
-
 
         stateObserver = Observer {
             when(it) {

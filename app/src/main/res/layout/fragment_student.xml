@@ -10,88 +10,138 @@
         type="com.chistoedet.android.istustudents.network.response.user.UserResponse" />
 </data>
 
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="@{user.fio}"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            android:background="@color/istu_gray"
+            android:layout_margin="8dp"
+            >
 
+        <LinearLayout
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:text="@{user.email}"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{user.id.toString()}" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{user.fio}" />
 
-    <TextView
-        android:text="@{user.id.toString()}"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{user.email}" />
 
-    <TextView
-        android:text="@{user.isPPS.toString()}"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{user.isPPS.toString()}" />
 
-    <TextView
-        android:text="@{user.student.get(0).course.toString()}"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{user.student.get(0).course.toString()}" />
 
-    <TextView
-        android:text="@{user.student.get(0).department}"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{user.student.get(0).department}" />
 
-    <TextView
-        android:text="@{user.student.get(0).speciality}"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{user.student.get(0).speciality}" />
 
-    <TextView
-        android:text="@{user.student.get(0).profile}"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{user.student.get(0).profile}" />
 
-    <Button
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/personal_data"
-        android:text="@string/personal_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-    <Button
-        app:layout_constraintTop_toBottomOf="@+id/personal_data"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/form_statement"
-        android:text="@string/form_a_statement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_below="@+id/info_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Войти в ВК"
-        android:id="@+id/vkLogin"/>
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_margin="32dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="тест запроса студент"
-        android:id="@+id/vkStudentTest"/>
+        <Button
+            android:id="@+id/personal_data"
+            android:text="@string/personal_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="тест запроса сессия"
-        android:id="@+id/vkSessionTest"/>
+        <Button
+            android:id="@+id/form_statement"
 
-</LinearLayout>
+            android:layout_margin="8dp"
+            android:text="@string/form_a_statement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:layout_width="60sp"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/vk_logo"
+                android:layout_gravity="center">
+            </ImageButton>
+
+            <Button
+                android:id="@+id/vkLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Войти в ВК"
+                />
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/vkStudentTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="тест запроса студент"
+            />
+
+        <Button
+            android:id="@+id/vkSessionTest"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="тест запроса сессия"
+            />
+
+        <Button
+            android:id="@+id/vkNewsTest"
+            android:layout_margin="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="тест запроса новостей"
+            />
+    </LinearLayout>
+
+    </RelativeLayout>
 </layout>

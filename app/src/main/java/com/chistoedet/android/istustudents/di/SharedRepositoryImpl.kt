@@ -11,15 +11,16 @@ class SharedRepositoryImpl constructor(
      var context: Context) : SharedRepository {
 
     val SHAREDNAME = "ISTU_SHARED_PREFERENCES"
+    val HISTORYSIZE = "HISTORY_SIZE"
 
     var sharedPreferences : SharedPreferences = context.getSharedPreferences(SHAREDNAME, Context.MODE_PRIVATE)
 
     override fun setNewsHistorySize(size : Int) {
-        sharedPreferences.edit().putInt("historySize", size).apply()
+        sharedPreferences.edit().putInt(HISTORYSIZE, size).apply()
     }
 
     override fun getNewsHistorySize() : Int {
-        return sharedPreferences.getInt("historySize",0)
+        return sharedPreferences.getInt(HISTORYSIZE,0)
     }
 
     override fun setToken(login: LoginResponse) {

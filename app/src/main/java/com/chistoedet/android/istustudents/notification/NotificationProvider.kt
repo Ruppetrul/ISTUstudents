@@ -7,13 +7,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.chistoedet.android.istustudents.Config
 import com.chistoedet.android.istustudents.R
-import com.vk.api.sdk.VK
-import com.vk.api.sdk.VKApiCallback
-import com.vk.dto.common.id.UserId
-import com.vk.sdk.api.wall.WallService
-import com.vk.sdk.api.wall.dto.WallGetResponse
 import com.vk.sdk.api.wall.dto.WallWallpostFull
 
 class NotificationProvider {
@@ -47,40 +41,11 @@ class NotificationProvider {
                         .setTicker("Ticker")
                         .setSmallIcon(android.R.drawable.ic_menu_report_image)
                         .setContentTitle("Новость")
-                        .setContentText(wallPostResponse?.postSource?.data?.substring(0,100))
+                        .setContentText(wallPostResponse?.text?.substring(0,100))
                         //.setContentIntent(pendingIntent)
                         .setAutoCancel(true)
                         .build()
                     notificationManager.notify(0, notification)
-                } else {
-
-                    VK.execute(
-                        WallService().wallGet(
-                            UserId(Config.VK_PUBLIC_ID),
-                            null,
-                            null,
-                            1,
-                            null,
-                            null), object: VKApiCallback<WallGetResponse> {
-                            override fun fail(error: Exception) {
-
-                            }
-
-                            override fun success(result: WallGetResponse) {
-                                val notification = NotificationCompat
-                                    .Builder(context, NOTIFICATION_CHANNEL_ID)
-                                    .setTicker("Ticker")
-                                    .setSmallIcon(android.R.drawable.ic_menu_report_image)
-                                    .setContentTitle("Сделаем вид что вышла новость...")
-                                    .setContentText(result.items.first().text)
-                                    //.setContentIntent(pendingIntent)
-                                    .setAutoCancel(true)
-                                    .build()
-                                notificationManager.notify(0, notification)
-                            }
-                        })
-
-
                 }
             }
 

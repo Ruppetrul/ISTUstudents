@@ -16,10 +16,9 @@ class VkPagingDataSource : PagingSource<Int, WallWallpostFull>() {
         VkRepository.fetchNews(basePageSize, basePageSize * nextPageNumber).let{
             Log.d(TAG, "load: ${it.items.size}")
             if (it.items.isNullOrEmpty()) {
-                Log.d(TAG, "load: null or empty")
                 return LoadResult.Error(Exception())
             } else {
-                Log.d(TAG, "load: successful")
+
                 return LoadResult.Page(
                     data = it.items,
                     prevKey = null,
@@ -27,7 +26,6 @@ class VkPagingDataSource : PagingSource<Int, WallWallpostFull>() {
                 )
             }
         }
-
     }
 
     @ExperimentalPagingApi

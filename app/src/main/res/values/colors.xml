@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <color name="istu_blue">#164ACF</color>
+    <color name="istu_gray">#E1E6F1</color>
+    <color name="istu_gray_dark">#7E9FD6</color>
+
+
+
 </resources>
