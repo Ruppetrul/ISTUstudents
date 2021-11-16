@@ -12,31 +12,43 @@
             type="com.chistoedet.android.istustudents.network.response.chats.Staffs"/>
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/contact_name"
-            android:padding="16dp"
+        <ImageView
+            android:id="@+id/contact_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_person_24"
+            android:layout_margin="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{staffs.staff.family}"/>
+            />
+
+        <TextView
+            android:id="@+id/contact_name"
+            android:paddingBottom="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@{staffs.staff.family}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/contact_photo"
+            app:layout_constraintTop_toTopOf="@+id/contact_photo"
+            />
 
         <TextView
             android:id="@+id/latest_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@{staffs.latestMessage.message.length != 0 ? staffs.latestMessage.message : `История пуста` }"
 
-            android:text="@{staffs.latestMessage.message.length != 0 ? staffs.latestMessage.message : `история пуста` }"
-
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/contact_name"
             app:layout_constraintTop_toBottomOf="@id/contact_name"
             />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
