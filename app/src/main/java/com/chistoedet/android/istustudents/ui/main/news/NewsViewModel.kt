@@ -25,4 +25,5 @@ class NewsViewModel : ViewModel() {
         postValue(VKState.NotLoginState())
     }
 
+
 }

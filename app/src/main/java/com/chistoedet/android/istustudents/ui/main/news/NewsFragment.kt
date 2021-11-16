@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.chistoedet.android.istustudents.MainActivity
 import com.chistoedet.android.istustudents.databinding.NewsFragmentBinding
 import com.vk.api.sdk.VK
@@ -63,6 +64,14 @@ class NewsFragment : Fragment(), MainActivity.Callbacks {
 
                 }
             }
+        }
+
+        val refresh : SwipeRefreshLayout = binding.newsSwipeRefreshLayout
+        refresh.setOnRefreshListener {
+            contactListAdapter.refresh().apply {
+                refresh.isRefreshing = false
+            }
+
         }
 
         return binding.root
