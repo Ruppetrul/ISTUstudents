@@ -29,10 +29,6 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
-    <style name="IstuAlertTheme" parent="Theme.MaterialComponents.Dialog.Alert" >
-        <item name="android:background">@color/istu_gray_dark</item>
-        <item name="borderRound">8dp</item>
-    </style>
 
     <style name="GrayCardView" parent="CardView">
         <item name="cardBackgroundColor">@color/istu_gray</item>

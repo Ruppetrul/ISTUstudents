@@ -52,6 +52,7 @@ class ProfileFragment : Fragment() {
                 binding.passportEt.setText(it?.passport)
                 binding.SNILSEt.setText(it?.snils)
                 binding.INNEt.setText(it?.inn)
+                binding.numberEt.setText(it?.phone)
             }
         }
 
@@ -61,6 +62,7 @@ class ProfileFragment : Fragment() {
             saveInformation.passport = binding.passportEt.text.toString()
             saveInformation.inn = binding.INNEt.text.toString()
             saveInformation.snils = binding.SNILSEt.text.toString()
+            saveInformation.phone = binding.numberEt.text.toString()
             checkAndSaveInfo(saveInformation)
             findNavController().navigate(R.id.action_nav_profile_to_nav_student)
         }

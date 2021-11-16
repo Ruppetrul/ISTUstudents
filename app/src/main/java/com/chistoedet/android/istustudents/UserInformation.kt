@@ -8,4 +8,5 @@ class UserInformation {
 
     var snils : String ?= null
 
+    var phone: String ?= null
 }
