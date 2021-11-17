@@ -14,8 +14,8 @@
         <!-- Customize your theme here. -->
 
         <item name="buttonStyle">@style/IstuButton</item>
-
-     </style>
+        <item name="fontFamily">@font/cuprumregular</item>
+         </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

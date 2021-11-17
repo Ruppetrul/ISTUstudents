@@ -37,42 +37,42 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{user.id.toString()}" />
+                android:text="@{`ID: ` + user.id.toString()}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{user.fio}" />
+                android:text="@{`ФИО: ` + user.fio}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{user.email}" />
+                android:text="@{`E-mail: ` + user.email}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{user.isPPS.toString()}" />
+                android:text="@{`isPPS(Для разработчика): ` + user.isPPS.toString()}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{user.student.get(0).course.toString()}" />
+                android:text="@{`Курс : ` + user.student.get(0).course.toString()}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{user.student.get(0).department}" />
+                android:text="@{`Кафедра : ` + user.student.get(0).department}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{user.student.get(0).speciality}" />
+                android:text="@{`Направление обучения: ` + user.student.get(0).speciality}" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{user.student.get(0).profile}" />
+                android:text="@{`Профиль подготовки: ` + user.student.get(0).profile}" />
 
         </LinearLayout>
         </androidx.cardview.widget.CardView>
