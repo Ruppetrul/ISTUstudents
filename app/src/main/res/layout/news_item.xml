@@ -5,11 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
-        <import type="android.text.TextUtils"/>
-        <import type="java.util.Date"/>
-
         <variable
+            name="viewModel"
+            type="com.chistoedet.android.istustudents.ui.main.news.NewsViewModel"/>
+          <variable
             name="posts"
             type="com.vk.sdk.api.wall.dto.WallWallpostFull"/>
         </data>
@@ -38,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="@{posts.text.length() > 100 ? posts.text.substring(0,100) : posts.text}"
+            android:text="@{posts.text}"
             />
 
     </androidx.cardview.widget.CardView>
@@ -60,8 +59,9 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:text="@{posts.date.toString()}"
-            >
+            app:text="@{posts.date.toString()}"
+
+            ><!--android:text="@{SimpleDateFormat(pattern).format(Date(posts.date))}"-->
         </TextView>
 
     </androidx.cardview.widget.CardView>

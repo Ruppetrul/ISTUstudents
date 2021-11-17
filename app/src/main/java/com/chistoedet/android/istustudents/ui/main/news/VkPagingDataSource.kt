@@ -1,20 +1,23 @@
 package com.chistoedet.android.istustudents.ui.main.news
 
-import android.util.Log
+import android.annotation.SuppressLint
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.vk.sdk.api.wall.dto.WallWallpostFull
 
+
 class VkPagingDataSource : PagingSource<Int, WallWallpostFull>() {
     private val TAG = VkPagingDataSource::class.simpleName
+
+    @SuppressLint("SimpleDateFormat")
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, WallWallpostFull> {
 
         var basePageSize = 5
         var nextPageNumber = params.key ?: 1
 
         VkRepository.fetchNews(basePageSize, basePageSize * nextPageNumber).let{
-            Log.d(TAG, "load: ${it.items.size}")
+
             if (it.items.isNullOrEmpty()) {
                 return LoadResult.Error(Exception())
             } else {

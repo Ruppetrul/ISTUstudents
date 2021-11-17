@@ -1,9 +1,14 @@
 package com.chistoedet.android.istustudents.ui.main.news
 
+import android.util.Log
+import android.widget.TextView
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import java.text.SimpleDateFormat
+
 
 sealed class VKState {
     class LoginState: VKState()
@@ -25,5 +30,13 @@ class NewsViewModel : ViewModel() {
         postValue(VKState.NotLoginState())
     }
 
+}
 
+@BindingAdapter("app:text")
+fun convertTime(textView: TextView, time: String) {
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
+    Log.d("Convert", "convertTime: $time")
+    val time1 = time.toLong() * 1000
+    val a =  sdf.format(time1)
+    textView.text = a
 }
