@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.chistoedet.android.istustudents.di.App
 import com.chistoedet.android.istustudents.di.SharedRepositoryImpl
-import com.chistoedet.android.istustudents.statement.StatementFactory
+import com.chistoedet.android.istustudents.services.news.statement.StatementFactory
 
 class StudentOfficeViewModel(application: Application) : AndroidViewModel(application) {
 

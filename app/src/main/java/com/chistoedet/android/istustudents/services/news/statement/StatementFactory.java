@@ -1,4 +1,4 @@
-package com.chistoedet.android.istustudents.statement;
+package com.chistoedet.android.istustudents.services.news.statement;
 
 import com.chistoedet.android.istustudents.UserInformation;
 import com.chistoedet.android.istustudents.network.response.user.UserResponse;
